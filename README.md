@@ -35,3 +35,4 @@
 - [在线latex公式转gif](https://www.codecogs.com/latex/eqneditor.php)
 - [关于Machine Learning 很好的CSDN系列](https://blog.csdn.net/itplus)
 - [斯坦福: 反向传播笔记](Stanford%20Backprop%20Note.pdf)
+
