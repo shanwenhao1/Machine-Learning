@@ -19,6 +19,21 @@ def sig(x):
     return 1.0 / (1 + np.exp(-x))
 
 
+def partial_sig(x: np.mat or float):
+    """
+    Sigmoid导函数的值
+    :param x: x: 自变量, 可以是矩阵或者是任意实数
+    :return: out(mat or float): Sigmoid导函数的值
+    """
+    m, n = np.shape(x)
+    out = np.mat(np.zeros((m, n)))
+    for i in range(m):
+        for j in range(n):
+            # σ'(x) = σ(x)(1 - σ(x)) 推导公式见P125或者自己可以简单推导一下
+            out[i, j] = sig(x[i, j]) * (1 - sig(x[i, j]))
+    return out
+
+
 class PaintingPicture:
     """
     画图类
@@ -31,11 +46,13 @@ class PaintingPicture:
         self.all_color = ["black", "brown", "gold", "blue", "red", "maroon", "yellow", "gray"]
         self.all_marker = ["x", "o", "+", "*", "h", "s", "^", "D"]
 
-    def painting(self, input_point: np.mat, label: np.mat):
+    def painting(self, input_point: np.mat, label: np.mat, index_1: int, index_2: int):
         """
-        针对np.mat型数据(x, y, label)
+        针对(x, y, label)型数据画图, index_1和index_2参数根据是否有偏置项进行调节
         :param input_point:
         :param label:
+        :param index_1:
+        :param index_2:
         :return:
         """
         # 所有数据类型
@@ -43,12 +60,30 @@ class PaintingPicture:
         # set去除重复的元素
         all_point_type = set(all_point_type)
         for position, _type in enumerate(all_point_type):
-            x_scatter = [input_point[index, 1] for index in range(np.shape(input_point)[0]) if label[index, 0] == _type]
-            y_scatter = [input_point[index, 2] for index in range(np.shape(input_point)[0]) if label[index, 0] == _type]
+            x_scatter = [input_point[index, index_1] for index in range(np.shape(input_point)[0]) if label[index, 0] == _type]
+            y_scatter = [input_point[index, index_2] for index in range(np.shape(input_point)[0]) if label[index, 0] == _type]
             if position >= len(self.all_color):
                 raise ActionError("颜色不够请提升配置")
             self.ax1.scatter(np.array(x_scatter), np.array(y_scatter), c=self.all_color[position],
                              marker=self.all_marker[position])
+
+    def painting_with_offset(self, input_point: np.mat, label: np.mat):
+        """
+        针对np.mat型数据(x, y, label)
+        :param input_point: (offset, x, y)
+        :param label: (label)
+        :return:
+        """
+        self.painting(input_point, label, 1, 2)
+
+    def painting_with_No_offset(self, input_point: np.mat, label: np.mat):
+        """
+        无偏置项的打印
+        :param input_point: (x, y)
+        :param label: (label)
+        :return:
+        """
+        self.painting(input_point, label, 0, 1)
 
     def painting_simple_index(self, data: list):
         """

@@ -17,8 +17,26 @@
         - 循环神经网络
 
 ## 章节笔记
+
+### Part Ⅰ 分类算法(Classification algorithm)
+标签是一些离散的值, 代表着不同的分类
+
 - [第一章](ChapterNote/Chapter1-Logistic-Regression.md) Logistic Regression
 - [第二章](ChapterNote/Chapter2-Softmax-Regression.md) Softmax Regression
 - [第三章](ChapterNote/Chapter3-Factorization-Machine.md) Factorization Machine
 - [第四章](ChapterNote/Chapter4-Support-Vector-Machine.md) Support Vector Machine
 - [第五章](ChapterNote/Chapter5-Random-Forest.md) Random Forest
+- [第六章](ChapterNote/Chapter6-Back-Propagation.md) Back Propagation Neural Network
+
+### Part Ⅱ 回归算法(Regression algorithm)
+标签是一些连续的值, 目标是通过训练得到样本特征到连续标签的映射
+
+- [第七章](ChapterNote/Chapter7-Linear-Regression.md) Linear Regression
+
+### Part Ⅲ 聚类算法(Clustering Algorithm)
+
+### Part Ⅳ 推荐算法(Recommended algorithm)
+
+### Part Ⅴ 深度学习(Deep Learning)
+
+### Part Ⅵ 项目实践(Machine Learning In Action)

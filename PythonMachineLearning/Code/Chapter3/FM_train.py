@@ -32,7 +32,7 @@ def loadDataSet(data: str):
         labelMat.append(float(lines[-1]) * 2 - 1)   # 转换成{-1, 1}
     fr.close()
     with PaintingPicture(name="FM Point") as paint:
-        paint.painting(np.mat(dataMatShow), np.mat(labelMat).T)
+        paint.painting_with_offset(np.mat(dataMatShow), np.mat(labelMat).T)
     return dataMat, labelMat
 
 

@@ -30,7 +30,7 @@ def load_data(inputfile: str):
 
     f.close()
     with PaintingPicture(name="SoftMax Point") as paint:
-        paint.painting(np.mat(feature_data), np.mat(label_data).T)
+        paint.painting_with_offset(np.mat(feature_data), np.mat(label_data).T)
     # set消除重复元素
     return np.mat(feature_data), np.mat(label_data).T, len(set(label_data))
 

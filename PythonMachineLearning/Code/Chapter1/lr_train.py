@@ -35,7 +35,7 @@ def load_data(file_name: str):
         label_data.append(lable_tmp)
     f.close()
     with PaintingPicture(name="LR Point") as paint:
-        paint.painting(np.mat(feature_data), np.mat(label_data))
+        paint.painting_with_offset(np.mat(feature_data), np.mat(label_data))
     return np.mat(feature_data), np.mat(label_data)
 
 
