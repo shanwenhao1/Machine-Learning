@@ -4,7 +4,7 @@
 # @Author  : Wenhao Shan
 
 import numpy as np
-from PythonMachineLearning.functionUtils import PaintingPicture
+from PythonMachineLearning.functionUtils import PaintingWithLabel
 
 
 def load_data(inputfile: str):
@@ -29,8 +29,8 @@ def load_data(inputfile: str):
         feature_data.append(feature_tmp)
 
     f.close()
-    with PaintingPicture(name="SoftMax Point") as paint:
-        paint.painting(np.mat(feature_data), np.mat(label_data).T)
+    with PaintingWithLabel(name="SoftMax Point") as paint:
+        paint.painting_with_offset(np.mat(feature_data), np.mat(label_data).T)
     # set消除重复元素
     return np.mat(feature_data), np.mat(label_data).T, len(set(label_data))
 

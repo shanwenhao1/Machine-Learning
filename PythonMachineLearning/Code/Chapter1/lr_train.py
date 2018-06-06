@@ -10,7 +10,7 @@
             3. 将权重输出到文件weights中
 """
 import numpy as np
-from PythonMachineLearning.functionUtils import sig, PaintingPicture
+from PythonMachineLearning.functionUtils import sig, PaintingWithLabel
 
 
 def load_data(file_name: str):
@@ -34,8 +34,8 @@ def load_data(file_name: str):
         feature_data.append(feature_tmp)
         label_data.append(lable_tmp)
     f.close()
-    with PaintingPicture(name="LR Point") as paint:
-        paint.painting(np.mat(feature_data), np.mat(label_data))
+    with PaintingWithLabel(name="LR Point") as paint:
+        paint.painting_with_offset(np.mat(feature_data), np.mat(label_data))
     return np.mat(feature_data), np.mat(label_data)
 
 

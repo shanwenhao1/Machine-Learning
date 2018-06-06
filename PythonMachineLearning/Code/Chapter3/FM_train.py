@@ -5,7 +5,7 @@
 
 import numpy as np
 from random import normalvariate    # 正态分布
-from PythonMachineLearning.functionUtils import sig, PaintingPicture
+from PythonMachineLearning.functionUtils import sig, PaintingWithLabel
 
 
 def loadDataSet(data: str):
@@ -31,8 +31,8 @@ def loadDataSet(data: str):
 
         labelMat.append(float(lines[-1]) * 2 - 1)   # 转换成{-1, 1}
     fr.close()
-    with PaintingPicture(name="FM Point") as paint:
-        paint.painting(np.mat(dataMatShow), np.mat(labelMat).T)
+    with PaintingWithLabel(name="FM Point") as paint:
+        paint.painting_with_offset(np.mat(dataMatShow), np.mat(labelMat).T)
     return dataMat, labelMat
 
 

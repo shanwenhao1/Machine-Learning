@@ -41,7 +41,7 @@ def load_data_lib_svm(data_file: str):
             tmp.append(0)
         data.append(tmp)
     f.close()
-    # painting(np.mat(data), np.mat(label).T, "SVM Point")
+    # painting_with_offset(np.mat(data), np.mat(label).T, "SVM Point")
     return np.mat(data), np.mat(label).T
 
 
