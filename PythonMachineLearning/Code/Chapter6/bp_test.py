@@ -5,7 +5,7 @@
 # @Dsc     : BP Neural Network test
 
 import numpy as np
-from PythonMachineLearning.functionUtils import PaintingWithLabel
+from PythonMachineLearning.functionUtils import PaintingWithMat
 from PythonMachineLearning.Code.Chapter6 import bp_train as BPTrain
 
 
@@ -113,7 +113,7 @@ def BPTest():
     # 4、保存最终的预测结果
     print("--------- 4.save result ------------")
     pre = np.argmax(result, axis=1)
-    with PaintingWithLabel(name="BP Test") as paint:
+    with PaintingWithMat(name="BP Test") as paint:
         paint.painting_with_no_offset(data_test, pre)
     save_predict("result", pre)
 

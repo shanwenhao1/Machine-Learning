@@ -4,35 +4,7 @@
 # @Author  : Wenhao Shan
 
 import numpy as np
-from PythonMachineLearning.functionUtils import PaintingWithLabel
-
-
-def load_data(inputfile: str):
-    """
-    导入训练数据
-    :param inputfile:
-    :return:           feature_data(mat)特征
-                        label_data(标签)
-                        k(int)类别的个数
-    """
-    f = open(inputfile)
-    feature_data = list()
-    label_data = list()
-    for line in f.readlines():
-        feature_tmp = list()
-        feature_tmp.append(1)   # 偏置顶
-        lines = line.strip().split("\t")
-        for i in range(len(lines) - 1):
-            feature_tmp.append(float(lines[i]))
-        label_data.append(int(lines[-1]))
-
-        feature_data.append(feature_tmp)
-
-    f.close()
-    with PaintingWithLabel(name="SoftMax Point") as paint:
-        paint.painting_with_offset(np.mat(feature_data), np.mat(label_data).T)
-    # set消除重复元素
-    return np.mat(feature_data), np.mat(label_data).T, len(set(label_data))
+from PythonMachineLearning.functionUtils import PaintingWithMat, LoadData, SaveModel
 
 
 def cost(err: np.mat, label_data: np.mat):
@@ -77,42 +49,31 @@ def gradientAscent(feature_data: np.mat, label_data: np.mat, k: int, maxCycle: i
         for x in range(m):
             # 矩阵所属类型对应列数置为正数
             err[x, label_data[x, 0]] += 1
-        weights = weights + (alpha / m) * feature_data.T * err  # 权重修正
+        weights += (alpha / m) * feature_data.T * err  # 权重修正
         i += 1
     return weights
 
 
-def save_model(file_name: str, weights: np.mat):
-    """
-    保存最终的模型
-    :param file_name:
-    :param weights:
-    :return:
-    """
-    f_w = open(file_name, "w")
-    m, n = np.shape(weights)
-    for i in range(m):
-        w_tmp = [str(weights[i, j]) for j in range(n)]
-        f_w.write("\t".join(w_tmp) + "\n")
-    f_w.close()
-
-
-def TrainOfSR():
+def sr_train():
     """
     训练并保存SR模型
     :return:
     """
-    inputfile = "SoftInput.txt"
     # 1. 导入训练数据
     print("--------------- 1. load data-----------------")
-    feature, label, k = load_data(inputfile)
+    feature, label, k = LoadData(file_name="SoftInput.txt", label_type="int").load_data(
+        offset=1, need_label_length=True)
+    label = label.T
+    with PaintingWithMat(name="SoftMax Point") as paint:
+        paint.painting_with_offset(feature, label)
     # 2. 训练Softmax模型
     print("--------------- 2. training-----------------")
     weights = gradientAscent(feature, label, k, 10000, 0.4)
     # 3. 保存最终的模型
     print("--------------- 3. save model-----------------")
-    save_model("weights", weights)
+    with SaveModel("weights") as save_model:
+        save_model.save_model_mul(weights)
 
 
 if __name__ == '__main__':
-    TrainOfSR()
+    sr_train()

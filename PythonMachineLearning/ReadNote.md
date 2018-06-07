@@ -32,6 +32,7 @@
 标签是一些连续的值, 目标是通过训练得到样本特征到连续标签的映射
 
 - [第七章](ChapterNote/Chapter7-Linear-Regression.md) Linear Regression
+- [第八章](ChapterNote/Chapter8-RidgeAndLasso-Regression.md) Ridge Regression and Lasso Regression
 
 ### Part Ⅲ 聚类算法(Clustering Algorithm)
 
@@ -40,3 +41,8 @@
 ### Part Ⅴ 深度学习(Deep Learning)
 
 ### Part Ⅵ 项目实践(Machine Learning In Action)
+
+## 杂谈
+
+- [回归和线性](https://blog.csdn.net/hzw19920329/article/details/77200475)
+- [重点: Sparsity and Some Basics of L1 Regularization](http://freemind.pluskid.org/machine-learning/sparsity-and-some-basics-of-l1-regularization/#ed61992b37932e208ae114be75e42a3e6dc34cb3) 

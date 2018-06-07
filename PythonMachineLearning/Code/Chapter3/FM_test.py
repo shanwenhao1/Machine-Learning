@@ -13,16 +13,16 @@ def loadDataSet(data: str):
     :param data:
     :return: (list) 特征
     """
-    dataMat = list()
+    data_mat = list()
     fr = open(data)
     for line in fr.readlines():
         lines = line.strip().split("\t")
 
-        lineArr = [float(lines[i]) for i in range(len(lines))]
-        dataMat.append(lineArr)
+        line_arr = [float(lines[i]) for i in range(len(lines))]
+        data_mat.append(line_arr)
 
     fr.close()
-    return dataMat
+    return data_mat
 
 
 def loadModel(model_file: str):

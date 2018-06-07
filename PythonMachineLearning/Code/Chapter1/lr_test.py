@@ -24,28 +24,6 @@ def load_weight(w: str):
     return np.mat(w)
 
 
-def load_data(file_name: str, n: int):
-    """
-    导入测试数据
-    :param file_name:
-    :param n:
-    :return:
-    """
-    f = open(file_name)
-    feature_data = list()
-    for line in f.readlines():
-        feature_tmp = list()
-        lines = line.strip().split("\t")
-        if len(lines) != n - 1:
-            continue
-        feature_tmp.append(1)
-        for x in lines:
-            feature_tmp.append(float(x))
-        feature_data.append(feature_tmp)
-    f.close()
-    return np.mat(feature_data)
-
-
 def predict(data: np.mat, w: np.mat):
     """
     对测试数据进行预测
@@ -88,11 +66,12 @@ def TestOfLR():
     n = np.shape(w)[1]
 
     print("------------------------2. Load Data-----------------------")
-    testData = load_data("test_data", n)
+    test_data = FTool.LoadData(file_name="test_data", feature_type="float").load_data_with_limit(number=n, offset=1)
 
     print("------------------------3. Get Prediction-----------------------")
-    h = predict(testData, w)
+    h = predict(test_data, w)
 
+    # TODO painting
     print("------------------------4. Save Prediction-----------------------")
     save_result("result", h)
 

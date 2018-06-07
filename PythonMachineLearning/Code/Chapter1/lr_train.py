@@ -10,33 +10,7 @@
             3. 将权重输出到文件weights中
 """
 import numpy as np
-from PythonMachineLearning.functionUtils import sig, PaintingWithLabel
-
-
-def load_data(file_name: str):
-    """
-    导入数据
-    :param file_name:
-    :return:
-    """
-    f = open(file_name)
-    feature_data = list()
-    label_data = list()
-    for line in f.readlines():
-        feature_tmp = list()
-        lable_tmp = list()
-        lines = line.strip().split("\t")
-        feature_tmp.append(1)   # 偏置项
-        for i in range(len(lines) - 1):
-            feature_tmp.append(float(lines[i]))
-        lable_tmp.append(float(lines[-1]))
-
-        feature_data.append(feature_tmp)
-        label_data.append(lable_tmp)
-    f.close()
-    with PaintingWithLabel(name="LR Point") as paint:
-        paint.painting_with_offset(np.mat(feature_data), np.mat(label_data))
-    return np.mat(feature_data), np.mat(label_data)
+from PythonMachineLearning.functionUtils import sig, PaintingWithMat, LoadData, SaveModel
 
 
 def lr_train_bgd(feature: np.mat, label: np.mat, maxCycle: int, alpha: float):
@@ -80,33 +54,22 @@ def error_rate(h: np.mat, label: np.mat):
     return sum_err / m
 
 
-def save_model(file_name: str, w: np.mat):
-    """
-    保存最终的模型
-    :param file_name:
-    :param w:   LR模型的权重
-    :return:
-    """
-    m = np.shape(w)[0]
-    f_w = open(file_name, "w")
-    w_array = [str(w[i, 0]) for i in range(m)]
-    f_w.write("\t".join(w_array))
-    f_w.close()
-
-
 def TrainOfLR():
     """
     训练并保存模型
     :return:
     """
     print("------------------------1. Load Data-----------------------")
-    feature, label = load_data("data.txt")
+    feature, label = LoadData(file_name="data.txt", feature_type="float", label_type="float").load_data(offset=1)
+    with PaintingWithMat(name="LR Point") as paint:
+        paint.painting_with_offset(feature, label)
 
     print("------------------------2. Training-----------------------")
     w = lr_train_bgd(feature, label, 1000, 0.01)
 
     print("------------------------3. Save Model-----------------------")
-    save_model("weights", w)
+    with SaveModel("weights") as save_model:
+        save_model.save_model(w)
 
 
 if __name__ == '__main__':

@@ -5,35 +5,35 @@
 
 import numpy as np
 from random import normalvariate    # 正态分布
-from PythonMachineLearning.functionUtils import sig, PaintingWithLabel
+from PythonMachineLearning.functionUtils import sig, PaintingWithMat
 
 
-def loadDataSet(data: str):
+def load_data_set(data: str):
     """
     导入训练数据
     :param data:    训练数据
-    :return:       dataMat(list)   特征
-                    labelMat(list)  标签
+    :return:       data_mat(list)   特征
+                    label_mat(list)  标签
     """
-    dataMat = list()
-    # dataMatShow只是用来画图所用
-    dataMatShow = list()
-    labelMat = list()
+    data_mat = list()
+    # data_mat_show只是用来画图所用
+    data_mat_show = list()
+    label_mat = list()
     fr = open(data)
     for line in fr.readlines():
         lines = line.strip().split("\t")
-        lineArrr = [float(lines[i]) for i in range(len(lines) - 1)]
-        ArrShow = [0]
-        ArrShow.extend(lineArrr)
+        line_arr = [float(lines[i]) for i in range(len(lines) - 1)]
+        arr_show = [0]
+        arr_show.extend(line_arr)
 
-        dataMat.append(lineArrr)
-        dataMatShow.append(ArrShow)
+        data_mat.append(line_arr)
+        data_mat_show.append(arr_show)
 
-        labelMat.append(float(lines[-1]) * 2 - 1)   # 转换成{-1, 1}
+        label_mat.append(float(lines[-1]) * 2 - 1)   # 转换成{-1, 1}
     fr.close()
-    with PaintingWithLabel(name="FM Point") as paint:
-        paint.painting_with_offset(np.mat(dataMatShow), np.mat(labelMat).T)
-    return dataMat, labelMat
+    with PaintingWithMat(name="FM Point") as paint:
+        paint.painting_with_offset(np.mat(data_mat_show), np.mat(label_mat).T)
+    return data_mat, label_mat
 
 
 def initialize_v(n: int, k: int):
@@ -81,24 +81,24 @@ def stocGradAscent(dataMatrix: np.mat, classLabels: np.mat, k: int, max_iter: in
             p = w0 + dataMatrix[x] * w + interaction    # 计算预测的输出
             loss = sig(classLabels[x] * p[0, 0]) - 1
 
-            w0 = w0 - alpha * loss * classLabels[x]
+            w0 -= alpha * loss * classLabels[x]
             for i in range(n):
                 if dataMatrix[x, i] != 0:
-                    w[i, 0] = w[i, 0] - alpha * loss * classLabels[x] * dataMatrix[x, i]
+                    w[i, 0] -= alpha * loss * classLabels[x] * dataMatrix[x, i]
 
                     for j in range(k):
-                        v[i, j] = v[i, j] - alpha * loss * classLabels[x] * (dataMatrix[x, i] * inter_1[0, j] - v[i, j]
-                                                                             * dataMatrix[x, i] * dataMatrix[x, i])
+                        v[i, j] -= alpha * loss * classLabels[x] * (dataMatrix[x, i] * inter_1[0, j] - v[i, j]
+                                                                    * dataMatrix[x, i] * dataMatrix[x, i])
         # 计算损失函数的值
         if it % 1000 == 0:
             print("\t---------------- iter: ", it, " , cost: ",
-                  getCost(getPrediction(np.mat(dataMatrix), w0, w, v), classLabels))
+                  get_cost(getPrediction(np.mat(dataMatrix), w0, w, v), classLabels))
 
     # 3、返回最终的FM模型的参数
     return w0, w, v
 
 
-def getCost(preidct: list, classLabels: list):
+def get_cost(preidct: list, classLabels: list):
     """
     计算预测准确性
     :param preidct: 预测值
@@ -190,7 +190,7 @@ def TrainFM():
     """
     # 1、导入训练数据
     print("---------- 1.Load Data ---------")
-    dataTrain, labelTrain = loadDataSet("data.txt")
+    dataTrain, labelTrain = load_data_set("data.txt")
     print("---------- 2.Learning ---------")
     # 2、利用随机梯度训练FM模型
     w0, w, v = stocGradAscent(np.mat(dataTrain), labelTrain, 3, 10000, 0.01)

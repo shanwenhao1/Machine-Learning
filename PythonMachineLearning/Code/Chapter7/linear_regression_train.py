@@ -5,33 +5,7 @@
 # @Dsc     : Linear Regression training
 
 import numpy as np
-from PythonMachineLearning.functionUtils import PaintingNoLabel
-
-
-def load_data(file_path: str):
-    """
-    导入数据
-    :param file_path:
-    :return: feature(mat): 特征
-              label(mat): 标签
-    """
-    f = open(file_path)
-    feature = list()
-    label = list()
-    for line in f.readlines():
-        lines = line.strip().split("\t")
-        feature_tmp = list()
-        feature_tmp.append(1)   # x0
-        for i in range(len(lines) - 1):
-            feature_tmp.append(float(lines[i]))
-        feature.append(feature_tmp)
-        label.append(float(lines[-1]))
-    f.close()
-
-    with PaintingNoLabel(name="Linear Regression Training") as paint:
-        paint.painting_with_offset(feature, label)
-
-    return np.mat(feature), np.mat(label).T
+from PythonMachineLearning.functionUtils import PaintingWithList, LoadData, SaveModel
 
 
 def get_error(feature: np.mat, label: np.mat, w: np.mat):
@@ -127,21 +101,6 @@ def newton(feature: np.mat, label: np.mat, iterMax: int, sigma: float, delta: fl
     return w
 
 
-def save_model(file_name: str, w: np.mat):
-    """
-    保存最终的模型
-    :param file_name:
-    :param w: 训练好的线性回归模型
-    :return:
-    """
-    f_result = open(file_name, "w")
-    m, n = np.shape(w)
-    for i in range(m):
-        w_tmp = [str(w[i, j]) for j in range(n)]
-        f_result.write("\t".join(w_tmp) + "\n")
-    f_result.close()
-
-
 def linear_regression_train():
     """
     LR training
@@ -149,7 +108,11 @@ def linear_regression_train():
     """
     # 1、导入数据集
     print("----------- 1.load data ----------")
-    feature, label = load_data("data.txt")
+    feature, label, _ = LoadData(file_name="data.txt").load_data(offset=1, need_label_length=True, need_list=True)
+    with PaintingWithList(name="Linear Regression Training") as paint:
+        paint.painting_with_offset(feature, label)
+    feature = np.mat(feature)
+    label = np.mat(label).T
     # 2.1、最小二乘求解
     print("----------- 2.training ----------")
     # print "\t ---------- least_square ----------"
@@ -159,7 +122,8 @@ def linear_regression_train():
     w_newton = newton(feature, label, 50, 0.1, 0.5)
     # 3、保存最终的结果
     print("----------- 3.save result ----------")
-    save_model("weights", w_newton)
+    with SaveModel(file_name="weights") as save_model:
+        save_model.save_model_mul(w_newton)
 
 
 if __name__ == '__main__':

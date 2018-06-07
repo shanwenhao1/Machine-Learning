@@ -6,7 +6,7 @@
 
 import numpy as np
 from math import sqrt
-from PythonMachineLearning.functionUtils import PaintingWithLabel, sig, partial_sig
+from PythonMachineLearning.functionUtils import PaintingWithMat, sig, partial_sig
 
 
 def load_data(file_name: str):
@@ -36,7 +36,7 @@ def load_data(file_name: str):
     for i in range(m):
         label_data[i, label_tmp[i]] = 1
 
-    with PaintingWithLabel(name="BP Train") as paint:
+    with PaintingWithMat(name="BP Train") as paint:
         paint.painting_with_no_offset(np.mat(feature_data), label_data)
     return np.mat(feature_data), label_data, class_number
 
