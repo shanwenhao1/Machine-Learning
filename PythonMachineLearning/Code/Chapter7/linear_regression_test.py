@@ -5,7 +5,7 @@
 # @Dsc     : Linear Regression test
 
 import numpy as np
-from PythonMachineLearning.functionUtils import PaintingWithList, get_list_from_mat
+from PythonMachineLearning.functionUtils import PaintingWithList, get_list_from_mat, LoadModel
 
 
 def load_data(file_name: str):
@@ -25,18 +25,6 @@ def load_data(file_name: str):
         feature.append(feature_tmp)
     f.close()
     return np.mat(feature)
-
-
-def load_model(model_file: str):
-    """
-    导入模型
-    :param model_file:
-    :return: w(mat): 权重
-    """
-    f = open(model_file)
-    w = [float(line.strip()) for line in f.readlines()]
-    f.close()
-    return np.mat(w).T
 
 
 def get_prediction(data: np.mat, w: np.mat):
@@ -71,7 +59,8 @@ def linear_regression_test():
     # 1、导入测试数据
     testData = load_data("data_test.txt")
     # 2、导入线性回归模型
-    w = load_model("weights")
+    with LoadModel("weights") as model:
+        w = model.load_model(need_transpose=True)
     # 3、得到预测结果
     predict = get_prediction(testData, w)
 

@@ -38,3 +38,6 @@
 - [关于Machine Learning 很好的CSDN系列](https://blog.csdn.net/itplus)
 - [斯坦福: 反向传播笔记](Stanford%20Backprop%20Note.pdf)
 - [几种常用的优化算法](https://www.cnblogs.com/shixiangwan/p/7532830.html)
+
+
+## [个人总结](Personal%20Summary.md)

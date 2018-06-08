@@ -185,7 +185,7 @@ class PaintingWithList(BasePainting):
     def __init__(self, fig_support=111, name=""):
         super(PaintingWithList, self).__init__(fig_support, name)
 
-    def painting_simple(self, feature: list, label: list, index: int):
+    def painting_mul_list(self, feature: list, label: list, index: int):
         """
         画图(单纯的描点), 用于回归
         :param feature:
@@ -197,23 +197,42 @@ class PaintingWithList(BasePainting):
         y_scatter = np.array(label)
         self.ax1.scatter(x_scatter, y_scatter, c=self.all_color[1], marker=self.all_marker[1])
 
-    def painting_with_offset(self, data: list, label: list):
+    def painting_simple_list(self, feature: list, label: list):
+        """
+        画图(feature和label)都是一维list
+        :param feature:
+        :param label:
+        :return:
+        """
+        x_scatter = np.array(feature)
+        y_scatter = np.array(label)
+        self.ax1.scatter(x_scatter, y_scatter, c=self.all_color[1], marker=self.all_marker[1])
+
+    def painting_with_offset(self, data: list, label: list, mul_simple: bool=False):
         """
         带偏置的画图
         :param data: 原始数据
         :param label:
+        :param mul_simple: feature是否是一维数组型的list
         :return:
         """
-        self.painting_simple(data, label, 1)
+        if not mul_simple:
+            self.painting_mul_list(data, label, 1)
+        else:
+            self.painting_simple_list(data, label)
 
-    def painting_no_offset(self, data: list, label: list):
+    def painting_no_offset(self, data: list, label: list, mul_simple: bool=False):
         """
         不带偏置的画图
         :param data: 原始数据
         :param label:
+        :param mul_simple:
         :return:
         """
-        self.painting_simple(data, label, 0)
+        if not mul_simple:
+            self.painting_mul_list(data, label, 0)
+        else:
+            self.painting_simple_list(data, label)
 
 
 class LoadData:
@@ -231,12 +250,13 @@ class LoadData:
         if self.label_type not in self.all_type_turn.keys():
             raise ActionError("Label Type Error")
 
-    def load_data(self, offset: int=None, need_label_length: bool=False, need_list: bool=False):
+    def load_data(self, offset: int=None, need_label_length: bool=False, need_list: bool=False, feature_end: int=1):
         """
         导入数据(训练或测试数据)
         :param offset: 偏置项
         :param need_label_length: 是否需要标签的个数
         :param need_list: 是否需要list型数据
+        :param feature_end: feature获取的截止位置
         :return: feature(mat or list) 特征
                   label(mat or list) 标签
         """
@@ -250,7 +270,7 @@ class LoadData:
             lines = line.strip().split("\t")
             if offset:
                 feature_tmp.append(offset)  # 偏置项
-            for i in range(len(lines) - 1):
+            for i in range(len(lines) - feature_end):
                 feature_tmp.append(self.all_type_turn[self.feature_type](lines[i]))
             label_tmp.append(self.all_type_turn[self.label_type](lines[-1]))
             label_list.append(self.all_type_turn[self.label_type](lines[-1]))
@@ -320,6 +340,46 @@ class SaveModel:
 
     def __enter__(self):
         self.f = open(self.file_name, "w")
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.f.close()
+
+
+class LoadModel:
+    """
+    加载模型
+    """
+
+    def __init__(self, file_name: str):
+        self.file_name = file_name
+
+    def load_model(self, need_transpose=False):
+        """
+        导入模型
+        :param need_transpose: 是否需要转置
+        :return: weight(mat): 权重值
+        """
+        w = [float(line.strip()) for line in self.f.readlines()]
+        weight = np.mat(w)
+        return weight if not need_transpose else weight.T
+
+    def load_model_mul(self, need_transpose=False):
+        """
+        导入模型(需要多维weight)
+        :param need_transpose: 是否需要转置
+        :return: weight(mat): 权重值
+        """
+        w = list()
+        for line in self.f.readlines():
+            lines = line.strip().split("\t")
+            w_tmp = [float(x) for x in lines]
+            w.append(w_tmp)
+        weight = np.mat(w)
+        return weight if not need_transpose else weight.T
+
+    def __enter__(self):
+        self.f = open(self.file_name)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

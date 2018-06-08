@@ -5,28 +5,7 @@
 import numpy as np
 import random
 from PythonMachineLearning.Code.Chapter2.softmax_regression_train import sr_train
-
-
-def load_weights(weight_path: str):
-    """
-    导入训练好的Softmax模型
-    :param weight_path:
-    :return:           weights(mat)    将权重存到矩阵中
-                        m(int)          权重的行数
-                        n(int)          权重的列数
-    """
-    f = open(weight_path)
-    w = list()
-    for line in f.readlines():
-        w_tmp = list()
-        lines = line.strip().split("\t")
-        for x in lines:
-            w_tmp.append(float(x))
-        w.append(w_tmp)
-    f.close()
-    weights = np.mat(w)
-    m, n = np.shape(weights)
-    return weights, m, n
+from PythonMachineLearning.functionUtils import LoadModel
 
 
 def load_data(num: int, m: int):
@@ -70,14 +49,16 @@ def save_result(file_name: str, result: np.matrix):
     f_result.close()
 
 
-def TestSR():
+def test_sr():
     """
     测试Softmax Regression
     :return:
     """
     sr_train()
     print("---------- 1.Load Model ------------")
-    w, m, n = load_weights("weights")
+    with LoadModel("weights") as model:
+        w = model.load_model_mul()
+    m, n = np.shape(w)
     print("---------- 2.Load Data ------------")
     test_data = load_data(4000, m)
     print("---------- 3.Prediction ------------")
@@ -87,4 +68,4 @@ def TestSR():
 
 
 if __name__ == '__main__':
-    TestSR()
+    test_sr()

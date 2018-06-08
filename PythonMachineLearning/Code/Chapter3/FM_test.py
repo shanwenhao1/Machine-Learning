@@ -65,7 +65,7 @@ def save_result(file_name: str, result: np.mat):
     f.close()
 
 
-def TestFM():
+def test_fm():
     """
     测试FM模型
     :return:
@@ -81,4 +81,4 @@ def TestFM():
 
 
 if __name__ == '__main__':
-    TestFM()
+    test_fm()

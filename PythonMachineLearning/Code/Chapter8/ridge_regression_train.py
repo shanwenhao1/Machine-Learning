@@ -135,11 +135,11 @@ def lbfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int, save_m: int
         m1 = 0
         mk = 0
         gk = get_gradient(feature, label, w0, lam)
-        # 2.1、Armijo线搜索
+        # 2.1、Armijo线搜索, 寻找符合条件的最下非负整数m
         while m1 < 20:
-            newf = get_result(feature, label, (w0 + rho ** m1 * dk), lam)
-            oldf = get_result(feature, label, w0, lam)
-            if newf < oldf + sigma * (rho ** m1) * (gk.T * dk)[0, 0]:
+            new_f = get_result(feature, label, (w0 + rho ** m1 * dk), lam)
+            old_f = get_result(feature, label, w0, lam)
+            if new_f < old_f + sigma * (rho ** m1) * (gk.T * dk)[0, 0]:
                 mk = m1
                 break
             m1 += 1
@@ -180,21 +180,6 @@ def lbfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int, save_m: int
     return w0
 
 
-def save_weights(file_name: str, w0: np.mat):
-    """
-    保存最终的结果
-    :param file_name:
-    :param w0: 权重
-    :return:
-    """
-    f_result = open("weights", "w")
-    m, n = np.shape(w0)
-    for i in range(m):
-        w_tmp = [str(w0[i, j]) for j in range(n)]
-        f_result.write("\t".join(w_tmp) + "\n")
-    f_result.close()
-
-
 def ridge_regression_train(method: str):
     """
     岭回归模型训练
@@ -203,7 +188,7 @@ def ridge_regression_train(method: str):
     """
     # 1、导入数据
     print("----------1.load data ------------")
-    feature, label, _ = LoadData(file_name="data.txt").load_data(need_label_length=True, need_list=True)
+    feature, label, _ = LoadData(file_name="data.txt").load_data(offset=1, need_label_length=True, need_list=True)
     with PaintingWithList(name="Ridge Regression Training") as paint:
         paint.painting_with_offset(feature, label)
     feature = np.mat(feature)

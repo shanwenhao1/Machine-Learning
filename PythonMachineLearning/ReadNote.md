@@ -33,6 +33,7 @@
 
 - [第七章](ChapterNote/Chapter7-Linear-Regression.md) Linear Regression
 - [第八章](ChapterNote/Chapter8-RidgeAndLasso-Regression.md) Ridge Regression and Lasso Regression
+- [第九章](ChapterNote/Chapter9-CART-Regression.md) Classification And Regression Tree
 
 ### Part Ⅲ 聚类算法(Clustering Algorithm)
 

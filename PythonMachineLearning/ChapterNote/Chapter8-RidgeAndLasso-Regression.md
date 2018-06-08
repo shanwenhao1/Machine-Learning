@@ -18,7 +18,7 @@
 
 
 ## Lasso回归模型
-Lasso仍然是一个convex optimization问题, 不过不再具有解析解.它的优良性质是能产生稀疏性, 导致w中许多项变成零.
+Lasso仍然是一个convex optimization问题, 不过不再具有解析解.它的优良性质是能产生稀疏性解, 导致w中许多项变成零.
 
 
 Lasso采用L<sub>1</sub>正则, 即Lasso是在平方差的基础上增加L<sub>1</sub>正则, 损失函数为:

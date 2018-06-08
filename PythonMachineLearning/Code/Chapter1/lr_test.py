@@ -8,22 +8,6 @@ from PythonMachineLearning.Code.Chapter1 import lr_train
 from PythonMachineLearning import functionUtils as FTool
 
 
-def load_weight(w: str):
-    """
-    导入LR模型
-    :param w:   权重所在的文件夹位置
-    :return:
-    """
-    f = open(w)
-    w = list()
-    for line in f.readlines():
-        lines = line.strip().split("\t")
-        w_tmp = [float(x) for x in lines]
-        w.append(w_tmp)
-    f.close()
-    return np.mat(w)
-
-
 def predict(data: np.mat, w: np.mat):
     """
     对测试数据进行预测
@@ -62,7 +46,8 @@ def TestOfLR():
     """
     lr_train.TrainOfLR()
     print("------------------------1. Load Model-----------------------")
-    w = load_weight("weights")
+    with FTool.LoadModel("weights") as model:
+        w = model.load_model_mul()
     n = np.shape(w)[1]
 
     print("------------------------2. Load Data-----------------------")
