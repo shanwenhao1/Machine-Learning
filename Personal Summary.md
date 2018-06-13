@@ -27,20 +27,26 @@
 - 岭回归与Lasso回归都是添加正则项
     - 岭回归是在残差平方和基础上增加正则项(λw<sup>2</sup>)
     - Lasso回归是在残差平方和基础上增加正则项(λ|w|)
-- 岭回归缺点及Lasso解决的问题, [详情请见](PythonMachineLearning/ChapterNote/Chapter8-RidgeAndLasso-Regression.md)
+- 岭回归缺点及Lasso解决的问题, [详情请见](PythonMachineLearning/ChapterNote/Part2-Regression/Chapter8-RidgeAndLasso-Regression.md)
 
 ### 非线性回归
 #### 局部加权线性回归
 能够对非线性的数据实现较好拟合, 但是局部加权线性回归模型属于非参学习算法, 每次预测时, 
 需要利用数据重新训练模型的参数(非参耗费时间).
 
-#### [CART树回归](PythonMachineLearning/ChapterNote/Chapter9-CART-Regression.md)
+#### [CART树回归](PythonMachineLearning/ChapterNote/Part2-Regression/Chapter9-CART-Regression.md)
 
 
 
 ### 什么是正则化
 
 对损失函数(目标函数)加入一个惩罚项, 使得模型由多解变为更倾向其中一个解
+
+
+## Clustering
+
+- K-Means、K-Means++、Mean Shift算法都是基于距离的聚类算法, 聚类结果是球状的簇.
+- DBSACN算法是基于密度的聚类算法, 可以发现任意形状的聚类
 
 ## 杂谈
 

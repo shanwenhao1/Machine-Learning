@@ -208,6 +208,22 @@ class PaintingWithList(BasePainting):
         y_scatter = np.array(label)
         self.ax1.scatter(x_scatter, y_scatter, c=self.all_color[1], marker=self.all_marker[1])
 
+    def painting_list_with_label(self, x: list, y: list, label: list):
+        """
+        画图(带标签)
+        :param x: 横坐标
+        :param y: 纵坐标
+        :param label: 标签
+        :return:
+        """
+        for i in range(len(x)):
+            x_point = x[i: i + 1]
+            y_point = y[i: i + 1]
+            label_point = int(label[i: i + 1][0])
+            self.ax1.scatter(x_point, y_point, c=self.all_color[label_point], marker=self.all_marker[label_point])
+            # # 单点绘图
+            # plt.plot(x_point, y_point, c=self.all_color[label_point], marker=self.all_marker[label_point])
+
     def painting_with_offset(self, data: list, label: list, mul_simple: bool=False):
         """
         带偏置的画图
@@ -337,6 +353,16 @@ class SaveModel:
         for i in range(m):
             w_tmp = [str(w[i, j]) for j in range(n)]
             self.f.write("\t".join(w_tmp) + "\n")
+
+    def save_result_row(self, data: np.mat):
+        """
+        保存结果
+        :param data:
+        :return:
+        """
+        n = np.shape(data)[1]
+        tmp = [str(data[0, i]) for i in range(n)]
+        self.f.write("\n".join(tmp))
 
     def __enter__(self):
         self.f = open(self.file_name, "w")
