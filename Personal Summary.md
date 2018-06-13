@@ -30,6 +30,7 @@
 - 岭回归缺点及Lasso解决的问题, [详情请见](PythonMachineLearning/ChapterNote/Part2-Regression/Chapter8-RidgeAndLasso-Regression.md)
 
 ### 非线性回归
+
 #### 局部加权线性回归
 能够对非线性的数据实现较好拟合, 但是局部加权线性回归模型属于非参学习算法, 每次预测时, 
 需要利用数据重新训练模型的参数(非参耗费时间).

@@ -41,6 +41,7 @@
 - [第十章](ChapterNote/Part3-Clustering/Chapter10-K-Means.md) K-Means
 - [第十一章](ChapterNote/Part3-Clustering/Chapter11-Mean-Shift.md) Mean Shift
 - [第十二章](ChapterNote/Part3-Clustering/Chapter12-DBSCAN.md) DBSCAN
+- [第十三章](ChapterNote/Part3-Clustering/Chapter13-Label-Propagation.md) Label Propagation
 
 ### Part Ⅳ 推荐算法(Recommended algorithm)
 
