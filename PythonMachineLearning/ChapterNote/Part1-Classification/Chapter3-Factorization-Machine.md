@@ -14,7 +14,7 @@
 [公式推导及引入交叉项的原因](https://blog.csdn.net/itplus/article/details/40534923)
 
 - 损失函数(二分类因子分解机FM算法)
-logit loss公式:
+[logit loss公式](https://blog.csdn.net/google19890102/article/details/79496256):
 <br><center>![](../MularGif/Part1-Classification/Chapter3Gif/LossMular.gif)</center></br>
 其中σ(x) 为sigmoid函数, 由公式可知 ![](../MularGif/Part1-Classification/Chapter3Gif/comparey.gif)损失函数就越小
 
