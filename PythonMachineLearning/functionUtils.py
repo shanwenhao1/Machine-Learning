@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/5/21
 # @Author  : Wenhao Shan
-# @Dsc     :  some base function and tool of machine learning, for example the Sigmoid function.
+# @Dsc     : Some base function and tool of machine learning, for example the Sigmoid function.
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -323,6 +323,20 @@ class LoadData:
             feature_data.append(feature_tmp)
         f.close()
         return np.mat(feature_data)
+
+    def load_data_with_none(self):
+        """
+        导入测试数据(用于推荐算法)
+        :return: data(mat): 用户商品矩阵
+        """
+        f = open(self.file_name)
+        data = list()
+        for line in f.readlines():
+            lines = line.strip().split("\t")
+            tmp = [float(x) if x != "-" else float(0) for x in lines]
+            data.append(tmp)
+        f.close()
+        return np.mat(data)
 
 
 class SaveModel:

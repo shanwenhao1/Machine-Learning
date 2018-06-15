@@ -50,6 +50,7 @@
 在现如今的大数据时代, 爆炸式增长的数据, 给用户带来了信息过载的痛苦. 推荐算法的出现给用户提供了很多的
 便利, 并且精准的推荐对于企业来说也是更高效的选择.
 - [第十四章](ChapterNote/Part4-Recommendation/Chapter14-Collaborative-Filtering.md) Collaborative Filtering
+- [第十五章](ChapterNote/Part4-Recommendation/Chapter15-Matrix-Factorization.md) Matrix Factorization
 
 ### Part Ⅴ 深度学习(Deep Learning)
 

@@ -1,27 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2018/5/21
+# @Time    : 2018/6/14
 # @Author  : Wenhao Shan
-# @Dsc     :  Recommendation based on item-based
+# @Dsc     : Recommendation based on item-based
 
 import numpy as np
 from PythonMachineLearning.Code.Chapter14.user_based_recommend import similarity, user_based_recommend, top_k
-
-
-def load_data(file_path: str):
-    """
-    导入数据
-    :param file_path:
-    :return: data(mat): 用户商品矩阵
-    """
-    f = open(file_path)
-    data = list()
-    for line in f.readlines():
-        lines = line.strip().split("\t")
-        tmp = [float(x) if x != "-" else 0 for x in lines]
-        data.append(tmp)
-    f.close()
-    return np.mat(data)
+from PythonMachineLearning import functionUtils as FTool
 
 
 def item_based_recommend(data: np.mat, w: np.mat, user: int):
@@ -62,7 +47,7 @@ def recommend_run():
     # 1、导入用户商品数据
     print("=======================User-based Recommend========================")
     print("------------ 1. load data ------------")
-    data = load_data("data.txt")
+    data = FTool.LoadData(file_name="data.txt").load_data_with_none()
     # 2、计算用户之间的相似性
     print("------------ 2. calculate similarity between users -------------")
     w = similarity(data)

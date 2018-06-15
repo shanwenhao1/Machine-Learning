@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2018/5/21
+# @Time    : 2018/6/14
 # @Author  : Wenhao Shan
-# @Dsc     :  Recommendation based on user-based
+# @Dsc     : Recommendation based on user-based
 
 import numpy as np
 

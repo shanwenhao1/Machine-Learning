@@ -20,12 +20,10 @@
     
 ## 阅读笔记
 
-### 机器学习 - 赵志勇著
-- [GitHub源码](https://github.com/zhaozhiyong19890102/Python-Machine-Learning-Algorithm)
-- [阅读笔记](PythonMachineLearning/ReadNote.md)
+### [机器学习 - 赵志勇著](https://github.com/zhaozhiyong19890102/Python-Machine-Learning-Algorithm)
+- [个人阅读笔记](PythonMachineLearning/ReadNote.md)
 
-### 机器学习实战
-[源码](https://github.com/pbharrin/machinelearninginaction)
+### [机器学习实战](https://github.com/pbharrin/machinelearninginaction)
 
 ### Deep Learning Tutorial - Hung-yi Lee(李宏毅)
 - [Deep Learning Tutorial PDF](Deep Learning Tutorial.pdf)
