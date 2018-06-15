@@ -37,7 +37,7 @@
 <br><center>![](../MularGif/Part4-Recommendation/Chapter15Gif/L2Loss%20Function.gif)</center></br>
 - 求解损失函数的负梯度:
 <br><center>![](../MularGif/Part4-Recommendation/Chapter15Gif/L2SGD.gif)</center></br>
-- 根据扶梯度的方向更新变量:
+- 根据负梯度的方向更新变量:
 <br><center>![](../MularGif/Part4-Recommendation/Chapter15Gif/L2Change%20Vector.gif)</center></br>
 
 ### 预测
