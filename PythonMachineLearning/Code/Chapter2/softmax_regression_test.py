@@ -4,29 +4,8 @@
 # @Author  : Wenhao Shan
 import numpy as np
 import random
-from PythonMachineLearning.Code.Chapter2.softmax_regression_train import TrainOfSR
-
-
-def load_weights(weight_path: str):
-    """
-    导入训练好的Softmax模型
-    :param weight_path:
-    :return:           weights(mat)    将权重存到矩阵中
-                        m(int)          权重的行数
-                        n(int)          权重的列数
-    """
-    f = open(weight_path)
-    w = list()
-    for line in f.readlines():
-        w_tmp = list()
-        lines = line.strip().split("\t")
-        for x in lines:
-            w_tmp.append(float(x))
-        w.append(w_tmp)
-    f.close()
-    weights = np.mat(w)
-    m, n = np.shape(weights)
-    return weights, m, n
+from PythonMachineLearning.Code.Chapter2.softmax_regression_train import sr_train
+from PythonMachineLearning.functionUtils import LoadModel
 
 
 def load_data(num: int, m: int):
@@ -36,13 +15,13 @@ def load_data(num: int, m: int):
     :param m:   样本的维数
     :return:        (mat)   生成的测试样本
     """
-    testDataSet = np.mat(np.ones((num, m)))
+    test_data_set = np.mat(np.ones((num, m)))
     for i in range(num):
         # 随机生成[-3, 3]之间的随机数
-        testDataSet[i, 1] = random.random() * 6 - 3
+        test_data_set[i, 1] = random.random() * 6 - 3
         # 随机生成[0, 15]之间的随机数
-        testDataSet[i, 2] = random.random() * 15
-    return testDataSet
+        test_data_set[i, 2] = random.random() * 15
+    return test_data_set
 
 
 def predict(test_data: np.mat, weights: np.mat):
@@ -70,14 +49,16 @@ def save_result(file_name: str, result: np.matrix):
     f_result.close()
 
 
-def TestSR():
+def test_sr():
     """
     测试Softmax Regression
     :return:
     """
-    TrainOfSR()
+    sr_train()
     print("---------- 1.Load Model ------------")
-    w, m, n = load_weights("weights")
+    with LoadModel("weights") as model:
+        w = model.load_model_mul()
+    m, n = np.shape(w)
     print("---------- 2.Load Data ------------")
     test_data = load_data(4000, m)
     print("---------- 3.Prediction ------------")
@@ -87,4 +68,4 @@ def TestSR():
 
 
 if __name__ == '__main__':
-    TestSR()
+    test_sr()

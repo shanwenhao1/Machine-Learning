@@ -8,44 +8,6 @@ from PythonMachineLearning.Code.Chapter1 import lr_train
 from PythonMachineLearning import functionUtils as FTool
 
 
-def load_weight(w: str):
-    """
-    导入LR模型
-    :param w:   权重所在的文件夹位置
-    :return:
-    """
-    f = open(w)
-    w = list()
-    for line in f.readlines():
-        lines = line.strip().split("\t")
-        w_tmp = [float(x) for x in lines]
-        w.append(w_tmp)
-    f.close()
-    return np.mat(w)
-
-
-def load_data(file_name: str, n: int):
-    """
-    导入测试数据
-    :param file_name:
-    :param n:
-    :return:
-    """
-    f = open(file_name)
-    feature_data = list()
-    for line in f.readlines():
-        feature_tmp = list()
-        lines = line.strip().split("\t")
-        if len(lines) != n - 1:
-            continue
-        feature_tmp.append(1)
-        for x in lines:
-            feature_tmp.append(float(x))
-        feature_data.append(feature_tmp)
-    f.close()
-    return np.mat(feature_data)
-
-
 def predict(data: np.mat, w: np.mat):
     """
     对测试数据进行预测
@@ -84,15 +46,17 @@ def TestOfLR():
     """
     lr_train.TrainOfLR()
     print("------------------------1. Load Model-----------------------")
-    w = load_weight("weights")
+    with FTool.LoadModel("weights") as model:
+        w = model.load_model_mul()
     n = np.shape(w)[1]
 
     print("------------------------2. Load Data-----------------------")
-    testData = load_data("test_data", n)
+    test_data = FTool.LoadData(file_name="test_data", feature_type="float").load_data_with_limit(number=n, offset=1)
 
     print("------------------------3. Get Prediction-----------------------")
-    h = predict(testData, w)
+    h = predict(test_data, w)
 
+    # TODO painting
     print("------------------------4. Save Prediction-----------------------")
     save_result("result", h)
 

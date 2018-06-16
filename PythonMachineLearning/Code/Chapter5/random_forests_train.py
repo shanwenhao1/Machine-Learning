@@ -8,7 +8,7 @@ import pickle
 import random
 import numpy as np
 from math import log
-from PythonMachineLearning.functionUtils import PaintingPicture
+from PythonMachineLearning.functionUtils import PaintingWithMat
 from PythonMachineLearning.Code.Chapter5 import tree as TreeTool
 
 
@@ -25,7 +25,7 @@ def load_data(file_name: str):
         data_tmp = [float(x) for x in lines]
         data_train.append(data_tmp)
     f.close()
-    with PaintingPicture(name="Random Forest Train Data ") as paint:
+    with PaintingWithMat(name="Random Forest Train Data ") as paint:
         paint.painting_simple_index(data_train)
     return data_train
 
@@ -127,7 +127,7 @@ def cal_correct_rate(data_train: list, final_predict: list):
         else:
             # 为了方便显示随便挑选一个错误的分类
             data_type.append(all_point_type[0] if data_train[i][-1] != all_point_type[0] else all_point_type[1])
-    with PaintingPicture(fig_support=211, name="Random Forest Train Data") as paint:
+    with PaintingWithMat(fig_support=211, name="Random Forest Train Data") as paint:
         paint.painting_after_train(data_train, data_type)
     return corr / m
 
