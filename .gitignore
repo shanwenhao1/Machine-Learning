@@ -10,3 +10,4 @@ test/*_post.py
 */log_files/
 *.pyc
 input.json.bak
+.venv/
