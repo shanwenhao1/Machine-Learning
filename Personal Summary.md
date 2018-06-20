@@ -52,3 +52,4 @@
 ## 杂谈
 
 - [岭回归和lasso回归](https://zm8.sm-tc.cn/?src=l4uLj4zF0NCIiIjRnJGdk5CYjNGckJLQjJeWh5aMl5qRmNCP0MjNys3HzsnRl4uSkw%3D%3D&uid=1d40bd6d5c3ab79707cdca47e5eec6e6&hid=ec0c6a268041c48b91eb571927a6d4f3&pos=1&cid=9&time=1528366715144&from=click&restype=1&pagetype=0020000000000408&bu=web&query=%E5%B2%AD%E5%9B%9E%E5%BD%92%E5%92%8Classo%E5%9B%9E%E5%BD%92&mode=&v=1&force=true&wap=false&province=%E7%A6%8F%E5%BB%BA%E7%9C%81&city=%E5%8E%A6%E9%97%A8%E5%B8%82&uc_param_str=dnntnwvepffrgibijbprsvdsdichei)
+- [优化方法总结](https://blog.csdn.net/u010089444/article/details/76725843)
