@@ -56,6 +56,7 @@
 ### Part Ⅴ 深度学习(Deep Learning)
 深度学习算法自动学习到特征的表示方法, 不需要人工参与特征的提取
 - [第十七章](ChapterNote/Part5-DeepLearning/Chapter17-AutoEncoder.md) Deep Learning
+- [第十八章](ChapterNote/Part5-DeepLearning/Chapter18-Convolutional-Neural-Network.md) Convolutional Neural Networks, CNN
 
 ### Part Ⅵ 项目实践(Machine Learning In Action)
 
@@ -63,3 +64,4 @@
 
 - [回归和线性](https://blog.csdn.net/hzw19920329/article/details/77200475)
 - [重点: Sparsity and Some Basics of L1 Regularization](http://freemind.pluskid.org/machine-learning/sparsity-and-some-basics-of-l1-regularization/#ed61992b37932e208ae114be75e42a3e6dc34cb3) 
+- [深度神经网络基本问题的原理详细分析和推导](https://blog.csdn.net/zpcxh95/article/details/69952020?winzoom=1)
