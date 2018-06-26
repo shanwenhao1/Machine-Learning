@@ -2,3 +2,4 @@ numpy
 scipy
 matplotlib
 tensorflow
+urllib5

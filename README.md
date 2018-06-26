@@ -22,6 +22,7 @@
 
 ### [机器学习 - 赵志勇著](https://github.com/zhaozhiyong19890102/Python-Machine-Learning-Algorithm)
 - [个人阅读笔记](PythonMachineLearning/ReadNote.md)
+- [个人总结](PythonMachineLearning/ChapterNote/Personal%20Summary.md)
 
 ### [机器学习实战](https://github.com/pbharrin/machinelearninginaction)
 
