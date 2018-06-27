@@ -18,7 +18,7 @@ def cost(err: np.mat, label_data: np.mat):
     sum_cost = 0.0
     for i in range(m):
         if err[i, label_data[i, 0]] / np.sum(err[i, :]) > 0:
-            sum_cost -= np.log(err[i, label_data[i, 0]] / np.sum(err[i, :]))
+            sum_cost -= np.log(err[i, label_data[i, 0]] / np.sum(err[i, :])) # 取正确项的值除以所有该项预测的值
         else:
             sum_cost -= 0
     return sum_cost / m
@@ -38,13 +38,14 @@ def gradientAscent(feature_data: np.mat, label_data: np.mat, k: int, maxCycle: i
     weights = np.mat(np.ones((n, k)))     # 权重的初始化
     i = 0
     while i <= maxCycle:
-        # 这里相当于
+        # np.exp(x)函数返回e的x次方, x类型为array_like
         err = np.exp(feature_data * weights)
         if i % 100 == 0:
             # 计算损失函数值
             print("\t-----------iter: ", i, ", cost: ", cost(err, label_data))
         rowSum = -err.sum(axis=1)   # 将矩阵每一行(axis=1)元素相加
-        rowSum = rowSum.repeat(k, axis=1)   # repeat elements of an array, 为了使err / rowSum的分母都相同
+        rowSum = rowSum.repeat(k, axis=1)   # repeat elements of an array(如: [[1]], k=4时,
+        # repeat后的结果为[[1, 1, 1, 1]]), 为了使err / rowSum的分母都相同
         err = err / rowSum
         for x in range(m):
             # 矩阵所属类型对应列数置为正数

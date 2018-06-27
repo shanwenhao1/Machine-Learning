@@ -62,6 +62,7 @@
 
 ## 杂谈
 
+- [范数、过拟合](https://blog.csdn.net/zchang81/article/details/70208061)
 - [回归和线性](https://blog.csdn.net/hzw19920329/article/details/77200475)
 - [重点: Sparsity and Some Basics of L1 Regularization](http://freemind.pluskid.org/machine-learning/sparsity-and-some-basics-of-l1-regularization/#ed61992b37932e208ae114be75e42a3e6dc34cb3) 
 - [深度神经网络基本问题的原理详细分析和推导](https://blog.csdn.net/zpcxh95/article/details/69952020?winzoom=1)
