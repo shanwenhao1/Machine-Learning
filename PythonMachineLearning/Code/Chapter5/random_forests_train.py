@@ -69,9 +69,9 @@ def choose_samples(data: list, k: int):
     """
     m, n = np.shape(data)   # 样本的个数和样本特征的个数
     # 1、选择出k个特征的index
-    feature = [random.randint(0, n - 2) for j in range(k)]
+    feature = [random.randint(0, n - 2) for _ in range(k)]
     # 2、选择出m个样本的index, 有放回的抽取, 样本可重复
-    index = [random.randint(0, m - 1) for i in range(m)]
+    index = [random.randint(0, m - 1) for _ in range(m)]
     # 3、从data中选择m个样本的k个特征, 组成数据集data_samples
     data_samples = list()
     for i in range(m):
@@ -171,7 +171,7 @@ def split_data(data_train: list, feature: list):
     return data
 
 
-def RandomForestTrain():
+def random_forest_train():
     """
     随机森林训练
     :return:
@@ -193,4 +193,4 @@ def RandomForestTrain():
 
 
 if __name__ == '__main__':
-    RandomForestTrain()
+    random_forest_train()

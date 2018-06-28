@@ -17,7 +17,7 @@ class SVM:
         self.n_samples = np.shape(data_set)[0]  # 训练样本的个数
         self.alphas = np.mat(np.zeros((self.n_samples, 1)))  # 拉格朗日乘子
         self.b = 0
-        self.error_tmp = np.mat(np.zeros((self.n_samples, 2)))  # 保存E的缓存
+        self.error_tmp = np.mat(np.zeros((self.n_samples, 2)))  # 保存E的缓存, E为误差
         self.kernel_opt = kernel_option  # 选用的核函数及其参数(高斯核函数)
         self.kernel_mat = calc_kernel(self.train_x, self.kernel_opt)    # 核函数的输出
 
@@ -70,6 +70,7 @@ def cal_error(svm: SVM, alpha_k: int):
     :param alpha_k: 选择出的变量
     :return: (float) 误差值
     """
+    # w^T + b
     output_k = float(np.multiply(svm.alphas, svm.train_y).T * svm.kernel_mat[:, alpha_k] + svm.b)
     error_k = output_k - float(svm.train_y[alpha_k])
     return error_k
@@ -77,7 +78,7 @@ def cal_error(svm: SVM, alpha_k: int):
 
 def select_second_sample_j(svm: SVM, alpha_i: int, error_i: float):
     """
-    选择第二个样本,  选择的标准是使其改变最大
+    选择第二个样本,  选择的标准是使其|E1-E2|改变最大
     :param svm: SVM 模型
     :param alpha_i: 选择出的第一个变量
     :param error_i: E_i
@@ -86,20 +87,20 @@ def select_second_sample_j(svm: SVM, alpha_i: int, error_i: float):
     """
     # 标记为已被优化
     svm.error_tmp[alpha_i] = [1, error_i]
-    candidateAlphaList = np.nonzero(svm.error_tmp[:, 0].A)[0]   # np.nonzero返回数组中不为0的下标,
+    candidate_alpha_list = np.nonzero(svm.error_tmp[:, 0].A)[0]   # np.nonzero返回数组中不为0的下标,
     # .A将矩阵转化为array数组类型
 
-    maxStep = 0
+    max_step = 0
     alpha_j = 0
     error_j = 0
 
-    if len(candidateAlphaList) > 1:
-        for alpha_k in candidateAlphaList:
+    if len(candidate_alpha_list) > 1:
+        for alpha_k in candidate_alpha_list:
             if alpha_k == alpha_i:
                 continue
             error_k = cal_error(svm, alpha_k)
-            if abs(error_k - error_j) > maxStep:
-                maxStep = abs(error_k - error_i)
+            if abs(error_k - error_j) > max_step:
+                max_step = abs(error_k - error_i)
                 alpha_j = alpha_k
                 error_j = error_k
     else:   # 随机选择
@@ -123,28 +124,28 @@ def choose_and_update(svm: SVM, alpha_i: int):
     if (svm.train_y[alpha_i] * error_i < - svm.toler) and (svm.alphas[alpha_i] < svm.c) or \
             (svm.train_y[alpha_i] * error_i > svm.toler) and (svm.alphas[alpha_i] > 0):
 
-        # 1、 选择第二个变量
+        # 1、 选择第二个变量, 选择标准是让|E1−E2|有足够大的变化
         alpha_j, error_j = select_second_sample_j(svm, alpha_i, error_i)
         alpha_i_old = svm.alphas[alpha_i].copy()
         alpha_j_old = svm.alphas[alpha_j].copy()
 
         # 2、 计算上下界
-        if svm.train_y[alpha_i] != svm.train_y[alpha_j]:
-            L = max(0, svm.alphas[alpha_j] - svm.alphas[alpha_i])
-            H = min(svm.c, svm.c + svm.alphas[alpha_j] - svm.alphas[alpha_i])
-        else:
-            L = max(0, svm.alphas[alpha_j] + svm.alphas[alpha_i] - svm.c)
-            H = min(svm.c, svm.alphas[alpha_j] + svm.alphas[alpha_i])
+        if svm.train_y[alpha_i] != svm.train_y[alpha_j]:    # y_i != y_j时
+            L = max(0, svm.alphas[alpha_j] - svm.alphas[alpha_i])   # L = max(0, α_j - α_i)
+            H = min(svm.c, svm.c + svm.alphas[alpha_j] - svm.alphas[alpha_i])   # H = min(C, C + α_j - α_i)
+        else:   # 当y_i = y_j时
+            L = max(0, svm.alphas[alpha_j] + svm.alphas[alpha_i] - svm.c)   # L = max(0, α_j + α_i - C)
+            H = min(svm.c, svm.alphas[alpha_j] + svm.alphas[alpha_i])   # H = min(C, α_j + α_i)
         if L == H:
             return 0
 
-        # 3、 计算eta
+        # 3、 计算eta, -(K_11 + K_22 - 2K_12)
         eta = 2.0 * svm.kernel_mat[alpha_i, alpha_j] - svm.kernel_mat[alpha_i, alpha_i] - \
             svm.kernel_mat[alpha_j, alpha_j]
         if eta >= 0:
             return 0
 
-        # 4、 更新alpha_j
+        # 4、 更新alpha_j, α_j = α_i + y_j * (E1-E2)/(K_11 + K_22 - 2K_12)
         svm.alphas[alpha_j] -= svm.train_y[alpha_j] * (error_i - error_j) / eta
 
         # 5、 确定最终的alpha_j
@@ -158,10 +159,10 @@ def choose_and_update(svm: SVM, alpha_i: int):
             update_error_tmp(svm, alpha_j)
             return 0
 
-        # 7、 更新alpha_i
+        # 7、 更新alpha_i, α_i_new = α_i_old + y_i * y_j * (α_j_old - α_j_new)
         svm.alphas[alpha_i] += svm.train_y[alpha_i] * svm.train_y[alpha_j] * (alpha_j_old - svm.alphas[alpha_j])
 
-        # 8、 更新b
+        # 8、 更新b_1和b_2
         b1 = svm.b - error_i - svm.train_y[alpha_i] * (svm.alphas[alpha_i] - alpha_i_old) \
                                                     * svm.kernel_mat[alpha_i, alpha_i] \
                              - svm.train_y[alpha_j] * (svm.alphas[alpha_j] - alpha_j_old) \
@@ -225,13 +226,12 @@ def SVMTraning(train_x: np.mat, train_y: np.mat, c: float, toler: float, max_ite
             # 对所有的样本
             for x in range(svm.n_samples):
                 alpha_pairs_changed += choose_and_update(svm, x)
-            iteration += 1
         else:
             # 非边界样本
             bound_samples = [i for i in range(svm.n_samples) if svm.alphas[i, 0] > 0 and svm.alphas[i, 0] < svm.c]
             for x in bound_samples:
                 alpha_pairs_changed += choose_and_update(svm, x)
-            iteration += 1
+        iteration += 1
 
         # 在所有样本和非边界样本之间交替
         if entire_set:

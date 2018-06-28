@@ -6,7 +6,7 @@
 
 import numpy as np
 import pickle
-from PythonMachineLearning.Code.Chapter4.svm_train import TrainSvm
+from PythonMachineLearning.Code.Chapter4.svm_train import train_vm
 from PythonMachineLearning.Code.Chapter4.svm import SVM, svm_predict
 
 

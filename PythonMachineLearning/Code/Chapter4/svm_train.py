@@ -19,7 +19,7 @@ def load_data_lib_svm(data_file: str):
     label = list()
     f = open(data_file)
     for line in f.readlines():
-        #lines = re.split(r" |\n", line.strip())
+        # lines = re.split(r" |\n", line.strip())
         lines = line.strip().split(' ')
 
         # 提取得出label
@@ -45,22 +45,22 @@ def load_data_lib_svm(data_file: str):
     return np.mat(data), np.mat(label).T
 
 
-def TrainSvm():
+def train_vm():
     """
     训练svm
     :return:
     """    # 1、导入训练数据
     print("------------ 1、load data --------------")
-    dataSet, labels = load_data_lib_svm("heart_scale")
+    data_set, labels = load_data_lib_svm("heart_scale")     # 特征和标签矩阵
     # 2、训练SVM模型
     print("------------ 2、training ---------------")
-    c = 0.6
-    toler = 0.001
-    max_iter = 500
-    svm_model = svm.SVMTraning(dataSet, labels, c, toler, max_iter)
+    c = 0.6     # 惩罚系数(正则项), 提高泛化能力
+    toler = 0.001   # 迭代的终止条件之一
+    max_iter = 5000  # 最大迭代次数
+    svm_model = svm.SVMTraning(data_set, labels, c, toler, max_iter)
     # 3、计算训练的准确性
     print("------------ 3、cal accuracy --------------")
-    accuracy = svm.cal_accuracy(svm_model, dataSet, labels)
+    accuracy = svm.cal_accuracy(svm_model, data_set, labels)
     print("The training accuracy is: %.3f%%" % (accuracy * 100))
     # 4、保存最终的SVM模型
     print("------------ 4、save model ----------------")
@@ -68,4 +68,4 @@ def TrainSvm():
 
 
 if __name__ == '__main__':
-    TrainSvm()
+    train_vm()

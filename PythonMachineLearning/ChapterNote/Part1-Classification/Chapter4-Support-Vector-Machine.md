@@ -82,6 +82,36 @@ SVM解出的分隔超平面不仅能够正确划分训练数据集, 而且几何
 序列最小最优化算法SMO(Sequential Minimal Optimization)求解: 书69页
 - 思想: 将一个大的问题划分成一系列小的问题, 通过对子问题的求解, 达到对对偶问题的求解过程
 
+
+#### SMO算法(Sequential Minimal Optimization)
+
+序列最小最优化算法SMO的思想将一个大的问题划分成一系列小的问题, 通过对子问题的求解, 达到对对偶问题的求解过程.
+- SMO不断将对偶问题的二次规划问题分解为只有两个变量的二次规划子问题. 因此属于二次规划优化算法
+    - SMO算法只优化两个变量, 将其他变量都视为常数, 由于
+    ![](../MularGif/Part1-Classification/Chapter4Gif/Restrictions%20alpha.gif), 如果固定α<sub>3</sub>,α<sub>4</sub>,
+    ...,α<sub>m</sub>, 那么α<sub>1</sub>,α<sub>2</sub>之间的关系也确定了.
+    - 因此优化函数则变为了以下形式:
+    <br><center>![](../MularGif/Part1-Classification/Chapter4Gif/SMO.gif)</center></br>
+    - 最后得解α
+    <br><center>![](../MularGif/Part1-Classification/Chapter4Gif/New%20alpha.gif)</center></br>
+- 第二个变量的选择
+    - SMO算法称选择第二一个变量为内层循环,假设我们在外层循环已经找到了α1α1, 第二个变量α2α2的选择标准
+    是让|E1−E2|有足够大的变化.由于α1α1定了的时候,E1E1也确定了,所以要想|E1−E2|最大,
+    只需要在E1E1为正时,选择最小的EiEi作为E2E2, 在E1E1为负时,选择最大的EiEi作为E2E2,可以将所有的EiEi保存下来加快迭代.
+    - 如果内存循环找到的点不能让目标函数有足够的下降, 可以采用遍历支持向量点来做α2α2,直到目标函数有足够的下降,
+     如果所有的支持向量做α2α2都不能让目标函数有足够的下降,可以跳出循环,重新选择α1α1　
+- 计算阈值b和差值E<sub>i</sub>:
+<br><center>![](../MularGif/Part1-Classification/Chapter4Gif/b%20and%20E.png)</center></br>
+
+##### SMO算法总结
+
+<br><center>![](../MularGif/Part1-Classification/Chapter4Gif/SMO%20summary.png)</center></br>
+     
 ## 杂谈
+
 - [SVM算法详解](https://blog.csdn.net/v_july_v/article/details/7624837)
 - [支持向量机学习笔记](https://blog.csdn.net/v_victor/article/details/51508884)
+- [SMO优化求解](https://www.cnblogs.com/pinard/p/6111471.html)
+- [KKT与拉格朗日乘子法](https://blog.csdn.net/xianlingmao/article/details/7919597)
+    - KKT条件是拉格朗日乘子法的泛化
+    - 拉格朗日乘子法是求解条件极值的解析方法, 可将所有约束的优化模型问题转化为无约束极值问题的求解.

@@ -31,11 +31,11 @@ def build_tree(data: list):
         return Node()
 
     # 1、计算当前的Gini指数
-    currentGini = cal_gini_index(data)
+    current_gini = cal_gini_index(data)
 
-    bestGain = 0.0
-    bestCriteria = None  # 存储最佳切分属性以及最佳切分点
-    bestSets = None  # 存储切分后的两个数据集
+    best_gain = 0.0
+    best_criteria = None  # 存储最佳切分属性以及最佳切分点
+    best_sets = None  # 存储切分后的两个数据集
 
     feature_num = len(data[0]) - 1  # 样本中特征的个数
     # 2、找到最好的划分
@@ -48,20 +48,20 @@ def build_tree(data: list):
             # 2.2.1、根据fea特征中的值value将数据集划分成左右子树
             (set_1, set_2) = split_tree(data, fea, value)
             # 2.2.2、计算当前的Gini指数
-            nowGini = float(len(set_1) * cal_gini_index(set_1) + len(set_2) * cal_gini_index(set_2)) / len(data)
+            now_gini = float(len(set_1) * cal_gini_index(set_1) + len(set_2) * cal_gini_index(set_2)) / len(data)
             # 2.2.3、计算Gini指数的增加量
-            gain = currentGini - nowGini
+            gain = current_gini - now_gini
             # 2.2.4、判断此划分是否比当前的划分更好
-            if gain > bestGain and len(set_1) > 0 and len(set_2) > 0:
-                bestGain = gain
-                bestCriteria = (fea, value)
-                bestSets = (set_1, set_2)
+            if gain > best_gain and len(set_1) > 0 and len(set_2) > 0:
+                best_gain = gain
+                best_criteria = (fea, value)
+                best_sets = (set_1, set_2)
 
     # 3、判断划分是否结束
-    if bestGain > 0:
-        right = build_tree(bestSets[0])
-        left = build_tree(bestSets[1])
-        return Node(fea=bestCriteria[0], value=bestCriteria[1], right=right, left=left)
+    if best_gain > 0:
+        right = build_tree(best_sets[0])
+        left = build_tree(best_sets[1])
+        return Node(fea=best_criteria[0], value=best_criteria[1], right=right, left=left)
     else:
         return Node(results=label_uniq_cat(data))   # 返回当前的类别标签作为最终的类别标签
 
