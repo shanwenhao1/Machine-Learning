@@ -32,6 +32,7 @@ b<sub>i</sub><sup>(L)</sup>标识的是第L+1层的第i个神经元的偏置项
     - 学习速度慢, 即使是简单的问题, 一般也需要几百上千次的学习才能收敛
     - 容易陷入局部极小值
     - 网络层数、神经元个数的选择没有相应的理论指导<font color=##0FFF80>(靠经验)</font>
+    对于越复杂的的数据分布, 神经网络需要越强的能力去对这批数据建模, 因此需要越多的隐含层节点数.
     - 网络推广能力有限
 
 ## BP神经网络算法
@@ -89,5 +90,6 @@ BP神经网络中参数的设置
 - [通俗易懂的神经网络文章](https://blog.csdn.net/u014403897/article/details/46347351)
 - [为什么反向](https://www.zhihu.com/question/27239198/answer/89853077)其中的图解很不错, 比较详细的解释了反向传播
 (BP算法避免了计算冗余, 对于每一个路径只访问一次就能求顶点对所有下层节点的偏导值)
+- [<font color=#FF0880>BP图例及详解</font>](https://blog.csdn.net/leiting_imecas/article/details/60463897)
 
 ## [着重看这篇](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)

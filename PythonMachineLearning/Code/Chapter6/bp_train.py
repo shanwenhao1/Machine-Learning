@@ -91,13 +91,13 @@ def predict_out(predict_in: np.mat):
     return result
 
 
-def bp_train(feature: np.mat, label: np.mat, n_hidden: int, maxCycle: int, alpha: float, n_output: int):
+def bp_train(feature: np.mat, label: np.mat, n_hidden: int, max_cycle: int, alpha: float, n_output: int):
     """
     计算隐含层的输入
     :param feature: 特征
     :param label: 标签
-    :param n_hidden: 隐含层的节点个数
-    :param maxCycle: 最大的迭代次数
+    :param n_hidden: 隐含层的节点个数(越复杂的数据分布, 需要更多的节点数)
+    :param max_cycle: 最大的迭代次数
     :param alpha: 学习率
     :param n_output: 输出层的节点个数
     :return: w0(mat): 输入层到隐含层之间的权重
@@ -107,12 +107,15 @@ def bp_train(feature: np.mat, label: np.mat, n_hidden: int, maxCycle: int, alpha
     """
     m, n = np.shape(feature)
     # 1、 初始化, 从指定的区间中生成随机数
+    # 1.1、输入层到隐含层的权重和偏置初始化
     w0 = np.mat(np.random.rand(n, n_hidden))    # np.random.rand(m, n)随机生成m * n维数组, 值在[0, 1]之间
+    # n为第i-1层节点的个数, n_hidden为第i层节点的个数
     w0 = w0 * (8.0 * sqrt(6) / sqrt(n + n_hidden)) - np.mat(np.ones((n, n_hidden))) * \
         (4.0 * sqrt(6) / sqrt(n + n_hidden))
     b0 = np.mat(np.random.rand(1, n_hidden))
     b0 = b0 * (8.0 * sqrt(6) / sqrt(n + n_hidden)) - np.mat(np.ones((1, n_hidden))) * \
         (4.0 * sqrt(6)) / sqrt(n + n_hidden)
+    # 1.2、隐含层到输出层的权重和偏置初始化
     w1 = np.mat(np.random.rand(n_hidden, n_output))
     w1 = w1 * (8.0 * sqrt(6) / sqrt(n_hidden + n_output)) - np.mat(np.ones((n_hidden, n_output))) * \
         (4.0 * sqrt(6) / sqrt(n_hidden + n_output))
@@ -122,11 +125,11 @@ def bp_train(feature: np.mat, label: np.mat, n_hidden: int, maxCycle: int, alpha
 
     # 2、训练
     i = 0
-    while i <= maxCycle:
+    while i <= max_cycle:
         # 2.1、信号正向传播
-        # 2.1.1、计算隐含层的输入
+        # 2.1.1、计算隐含层的输入(即输入经过wx + b的输出 )
         hidden_input = hidden_in(feature, w0, b0)   # mXn_hidden
-        # 2.1.2、计算隐含层的输出
+        # 2.1.2、计算隐含层的输出(使用激活函数映射到0-1区间)
         hidden_output = hidden_out(hidden_input)
         # 2.1.3、计算输出层的输入
         output_in = predict_in(hidden_output, w1, b1)   # mXn_output
@@ -134,9 +137,9 @@ def bp_train(feature: np.mat, label: np.mat, n_hidden: int, maxCycle: int, alpha
         output_out = predict_out(output_in)
 
         # 2.2、误差的反向传播
-        # 2.2.1、隐含层到输出层之间的残差
+        # 2.2.1、隐含层到输出层之间的残差, 对应-(y_i - a_i)·f'(z_i)
         delta_output = -np.multiply((label - output_out), partial_sig(output_in))
-        # 2.2.2、输入层到隐含层之间的残差
+        # 2.2.2、输入层到隐含层之间的残差, 对应另外一个公式(看文档去, 太复杂不打了)
         delta_hidden = np.multiply((delta_output * w1.T), partial_sig(hidden_input))
 
         # 2.3、修正权重和偏置
@@ -225,6 +228,7 @@ def BPTrain():
     """
     # 1、导入数据
     print("--------- 1.load data ------------")
+    # label形式为[1, 0]或[0, 1]这种格式, 分别代表属于第一类和第二类. 为交叉熵做准备.
     feature, label, n_class = load_data("data.txt")
     # 2、训练网络模型
     print("--------- 2.training ------------")
