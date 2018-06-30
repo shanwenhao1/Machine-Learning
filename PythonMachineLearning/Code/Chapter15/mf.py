@@ -32,10 +32,11 @@ def grad_ascent(data: np.mat, k: int, alpha: float, beta: float, max_cycles: int
                 if data[i, j] <= 0:  # "-"的情况则跳过
                     continue
                 error = data[i, j]
+                # 根据矩阵乘法定义的data[i, j] = p第i行, q第j列对应乘积的和, 即预测值data'[i, j]
                 for r in range(k):
                     error -= p[i, r] * q[r, j]
                 for r in range(k):
-                    # 梯度上升
+                    # 梯度上升, 对应GD更新公式
                     p[i, r] += alpha * (2 * error * q[r, j] - beta * p[i, r])
                     q[r, j] += alpha * (2 * error * p[i, r] - beta * q[r, j])
 
@@ -84,7 +85,7 @@ def mf_run():
     data_matrix = FTool.LoadData(file_name="data.txt").load_data_with_none()
     # 2、利用梯度下降法对矩阵进行分解
     print("----------- 2、training -----------")
-    p, q = grad_ascent(data_matrix, 5, 0.0002, 0.02, 5000)  # 由于样本过少, 迭代次数增加min loss也不会继续收敛
+    p, q = grad_ascent(data_matrix, 3, 0.0002, 0.02, 5000)  # 由于样本过少, 迭代次数增加min loss也不会继续收敛
     # 3、保存分解后的结果
     print("----------- 3、save decompose -----------")
     with FTool.SaveModel(file_name="p_result") as save_file:

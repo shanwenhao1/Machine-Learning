@@ -14,8 +14,14 @@
 在基于矩阵分解的推荐算法中, 首先需要建立模型, 即: 将原始的评分矩阵R<sub>m×n</sub>分解成两个矩阵P<sub>m×k</sub>
 和Q<sub>k×n</sub>的乘积:
 <br><center>![](../MularGif/Part4-Recommendation/Chapter15Gif/Matrix%20Factorization.gif)</center></br>
+利用分解后的矩阵预测原始矩阵中的未打分项.
 
 ### 损失函数
+
+利用原始的评分矩阵R<sub>m*n</sub>与重新构建的评分矩阵
+![](../MularGif/Part4-Recommendation/Chapter15Gif/Refacotr%20Matrix.gif)之间的误差的平方作为损失函数.
+
+训练完成后该评分矩阵其实就已经将所有用户关于所有商品的预测评分都预测出来了(<font color=#FF0890>有待确认</font>)
 
 #### 通过SGD梯度下降最优化损失函数
 
