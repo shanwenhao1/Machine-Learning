@@ -21,7 +21,7 @@ def get_error(feature: np.mat, label: np.mat, w: np.mat):
 
 def first_derivative(feature: np.mat, label: np.mat, w: np.mat):
     """
-    计算一阶导函数的值
+    计算一阶导函数的值, 平方差损失函数
     :param feature: 特征
     :param label: 标签
     :param w:
@@ -61,12 +61,13 @@ def get_min_m(feature: np.mat, label: np.mat, sigma: float, delta: float, d: np.
     :param delta:
     :param d: 负的一阶导数除以二阶导数值
     :param w:
-    :param g: 一阶导数值
+    :param g: 损失函数的一阶导数值
     :return: m(int): 最小m值
     """
     m = 0
     while True:
         w_new = w + pow(sigma, m) * d
+        # 这里函数f(x)为平方损失函数, 即get_error()
         left = get_error(feature, label, w_new)
         right = get_error(feature, label, w) + delta * pow(sigma, m) * g.T * d
         if left <= right:
@@ -76,12 +77,12 @@ def get_min_m(feature: np.mat, label: np.mat, sigma: float, delta: float, d: np.
     return m
 
 
-def newton(feature: np.mat, label: np.mat, iterMax: int, sigma: float, delta: float):
+def newton(feature: np.mat, label: np.mat, iter_max: int, sigma: float, delta: float):
     """
     全局牛顿法(具有二阶收敛性)
     :param feature: 特征
     :param label: 标签
-    :param iterMax: 最大迭代次数
+    :param iter_max: 最大迭代次数
     :param sigma:
     :param delta:
     :return: w(mat): 回归系数
@@ -89,12 +90,12 @@ def newton(feature: np.mat, label: np.mat, iterMax: int, sigma: float, delta: fl
     n = np.shape(feature)[1]
     w = np.mat(np.zeros((n, 1)))
     it = 0
-    while it <= iterMax:
+    while it <= iter_max:
         g = first_derivative(feature, label, w)     # 一阶导数
         G = second_derivative(feature)  # 二阶导数
-        d = - np.dot(G.I, g)
-        m = get_min_m(feature, label, sigma, delta, d, w, g)    # 得到最小的m
-        w += pow(sigma, m) * d
+        d = - np.dot(G.I, g)    # 等价于d = -G.I * g, .I为逆矩阵
+        m = get_min_m(feature, label, sigma, delta, d, w, g)    # 得到最小的非负整数m
+        w += pow(sigma, m) * d  # 更新w
         if it % 10 == 0:
             print("\t------- iteration: ", it, " , error: ", get_error(feature, label, w)[0, 0])
         it += 1

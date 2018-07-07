@@ -14,13 +14,15 @@ def lwlr(feature: np.mat, label: np.mat, k: int):
     :param feature: 特征
     :param label: 标签
     :param k: 核函数的系数
-    :return: predict(mat): 最终的结果
+    :return: predict(mat): 最终的预测结果
     """
     m = np.shape(feature)[0]
     predict = np.zeros(m)
     weights = np.mat(np.eye(m))
     for i in range(m):
+        # 对每个样本i都利用核函数求出其他点与其的权重关系
         for j in range(m):
+            # 高斯核函数赋值权重, 离i越近的点权重越高
             diff = feature[i, ] - feature[j, ]
             weights[j, j] = np.exp(diff * diff.T / (-2.0 * k ** 2))
         xTx = feature.T * (weights * feature)

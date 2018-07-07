@@ -57,14 +57,14 @@ def linear_regression_test():
     :return:
     """
     # 1、导入测试数据
-    testData = load_data("data_test.txt")
+    test_data = load_data("data_test.txt")
     # 2、导入线性回归模型
     with LoadModel("weights") as model:
         w = model.load_model(need_transpose=True)
     # 3、得到预测结果
-    predict = get_prediction(testData, w)
+    predict = get_prediction(test_data, w)
 
-    x_data = get_list_from_mat(testData, 1, True)
+    x_data = get_list_from_mat(test_data, 1, True)
     y_data = get_list_from_mat(predict, 0)
     with PaintingWithList(name="Linear Regression Training") as paint:
         paint.painting_no_offset(x_data, y_data)
