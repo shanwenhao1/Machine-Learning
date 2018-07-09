@@ -61,9 +61,8 @@ y<sup>T</sup><sub>k</sub>s<sub>k</sub>>0.
     - 由上述公式确定B<sub>k+1</sub>
         - 令k:=k+1
     <br>利用[Sherman-Morrison](https://blog.csdn.net/zhangping1987/article/details/24365455)公式可对上式进行变换, 
-    得到:
+    得到:<br><center>![](../MularGif/Part2-Regression/Chapter8Gif/BFGS%20SM.gif)</center></br>
     </br>
-    <br>![](../MularGif/Part2-Regression/Chapter8Gif/BFGS%20SM.gif)</br>
     
 ## 杂谈
 
