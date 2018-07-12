@@ -86,7 +86,7 @@ def k_means(k_class: int):
     :param k_class: 聚类中心的个数
     :return:
     """
-    k = 4  # 聚类中心的个数
+    k = k_class  # 聚类中心的个数
     file_path = "data.txt"
     # 1、导入数据
     print("---------- 1.load data ------------")

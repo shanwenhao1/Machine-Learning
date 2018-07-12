@@ -42,7 +42,7 @@ def get_centroids(points: np.mat, k: int):
     # 1、随机选择一个样本点作为第一个聚类中心
     index = np.random.randint(0, m)
     cluster_centers[0, ] = np.copy(points[index, ])
-    # 2、初始化一个距离的序列
+    # 2、初始化一个距离的序列, 用来保存每个样本点到已经初始化的聚类中心之间的最短距离
     d = [0.0 for _ in range(m)]
 
     for i in range(1, k):
