@@ -40,7 +40,7 @@ def err_cnt(data_set: list):
     :return: m * s^2(float): 总方差
     """
     data = np.mat(data_set)
-    # np.var计算方差方差
+    # np.var计算方差, 乘以样本个数即为样本与平均值的差的平方和
     return np.var(data[:, -1]) * np.shape(data)[0]
 
 
@@ -124,7 +124,9 @@ def build_tree(data: list, min_sample: int, min_err: float):
 
     # 2、开始构建CART回归树
     feature_num = len(data[0]) - 1
+    # 寻找可以将当前数据成左右子树的最佳划分特征
     for fea in range(0, feature_num):
+        # 对应特征初始化格式为{样本1特征fea: 1, ..., 样本n特征fea: 1}
         feature_values = {sample[fea]: 1 for sample in data}
 
         for value in feature_values.keys():
@@ -142,6 +144,7 @@ def build_tree(data: list, min_sample: int, min_err: float):
 
     # 3、判断划分是否结束
     if best_err > min_err:
+        # 递归调用不断划分左右子树直至满足截止条件为止
         right = build_tree(best_set[0], min_sample, min_err)
         left = build_tree(best_set[1], min_sample, min_err)
         return Node(fea=best_criteria[0], value=best_criteria[1], right=right, left=left)

@@ -23,7 +23,7 @@ def ridge_regression(feature: np.mat, label: np.mat, lam: float):
 
 def get_gradient(feature: np.mat, label: np.mat, w: np.mat, lam: float):
     """
-    计算导函数的值(求梯度)
+    计算损失函数的导函数的值(求梯度)
     :param feature: 特征
     :param label: 标签
     :param w:
@@ -51,24 +51,24 @@ def get_error(feature: np.mat, label: np.mat, w: np.mat):
 def get_result(feature: np.mat, label: np.mat, w: np.mat, lam: float):
     """
     计算损失函数的值
-    :param feature:
-    :param label:
-    :param w:
-    :param lam:
-    :return:
+    :param feature: 特征
+    :param label: 标签
+    :param w: 当前回归系数
+    :param lam: 正则化参数
+    :return: (mat): 回归系数
     """
     left = (label - feature * w).T * (label - feature * w)
     right = lam * w.T * w
     return (left + right) / 2
 
 
-def bfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int):
+def bfgs(feature: np.mat, label: np.mat, lam: float, max_cycle: int):
     """
     利用bfgs训练Ridge Regression模型
     :param feature: 特征
     :param label: 标签
     :param lam: 正则化参数
-    :param maxCycle: 最大迭代次数
+    :param max_cycle: 最大迭代次数
     :return: w(mat): 回归系数
     """
     n = np.shape(feature)[1]
@@ -78,17 +78,17 @@ def bfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int):
     sigma = 0.4  # σ
     bk = np.eye(n)
     k = 1
-    while k < maxCycle:
+    while k < max_cycle:
         print("\titer: ", k, "\terror: ", get_error(feature, label, w0))
-        gk = get_gradient(feature, label, w0, lam)  # 计算梯度
+        gk = get_gradient(feature, label, w0, lam)  # 计算损失函数的梯度
         dk = np.mat(-np.linalg.solve(bk, gk))   # 求解bk * x = gk中的x矩阵
         m = 0
         mk = 0
         # Armijo线搜索
         while m < 20:
-            newf = get_result(feature, label, (w0 + rho ** m * dk), lam)
-            oldf = get_result(feature, label, w0, lam)
-            if newf < oldf + sigma * (rho ** m) * (gk.T * dk)[0, 0]:
+            new_f = get_result(feature, label, (w0 + rho ** m * dk), lam)
+            old_f = get_result(feature, label, w0, lam)
+            if new_f < old_f + sigma * (rho ** m) * (gk.T * dk)[0, 0]:
                 mk = m
                 break
             m += 1
@@ -97,20 +97,21 @@ def bfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int):
         w = w0 + rho ** mk * dk
         sk = w - w0
         yk = get_gradient(feature, label, w, lam) - gk
-        if yk.T * sk > 0:
+        # 最终的BFGS校正公式
+        if yk.T * sk > 0:   # B_k对称正定的充要条件是yk.T * sk > 0
             bk = bk - (bk * sk * sk.T * bk) / (sk.T * bk * sk) + (yk * yk.T) / (yk.T * sk)
         k += 1
         w0 = w
     return w0
 
 
-def lbfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int, save_m: int):
+def lbfgs(feature: np.mat, label: np.mat, lam: float, max_cycle: int, save_m: int):
     """
     利用lbfgs训练Ridge Regression模型
     :param feature: 特征
     :param label: 标签
     :param lam: 正则化参数
-    :param maxCycle: 最大迭代次数
+    :param max_cycle: 最大迭代次数
     :param save_m: lbfgs中选择保留的个数
     :return:
     """
@@ -126,11 +127,10 @@ def lbfgs(feature: np.mat, label: np.mat, lam: float, maxCycle: int, save_m: int
     y = list()
 
     k = 1
-    gk = get_gradient(feature, label, w0, lam)  # 3X1
-    print(gk)
+    gk = get_gradient(feature, label, w0, lam)  #  # 计算损失函数的梯度
     dk = -H0 * gk
     # 2、迭代
-    while k < maxCycle:
+    while k < max_cycle:
         print("iter: ", k, "\terror: ", get_error(feature, label, w0))
         m1 = 0
         mk = 0

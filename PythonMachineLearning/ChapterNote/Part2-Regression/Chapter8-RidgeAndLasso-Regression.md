@@ -64,6 +64,12 @@ y<sup>T</sup><sub>k</sub>s<sub>k</sub>>0.
     得到:<br><center>![](../MularGif/Part2-Regression/Chapter8Gif/BFGS%20SM.gif)</center></br>
     </br>
     
+#### L-BFGS算法
+
+L-BFGS算法只要保存最新的m步向量即可, 令![](../MularGif/Part2-Regression/Chapter8Gif/p_k.gif), 
+![](../MularGif/Part2-Regression/Chapter8Gif/v_k.gif), 则BFGS算法中的H<sub>k+1</sub>可以表示为:
+<br>![](../MularGif/Part2-Regression/Chapter8Gif/L-Bfgs.gif)</br>
+    
 ## 杂谈
 
 - [系统讲解回归区分较好的笔记](https://blog.csdn.net/hzw19920329/article/details/77200475)
