@@ -8,7 +8,7 @@ import math
 import numpy as np
 from PythonMachineLearning import functionUtils as FTool
 
-MIN_DISTANCE = 0.000001     # 最小误差
+MIN_DISTANCE = 0.000001     # 样本保持不变的最小漂移值
 
 
 def load_data(file_path: str, feature_num: int=2):
@@ -70,10 +70,11 @@ def shift_point(point: np.mat, points: np.array, kernel_bandwidth: int):
     m = np.shape(points)[0]     # 样本的个数
     # 计算距离
     point_distance = np.mat(np.zeros((m, 1)))
+    # 计算求解样本与所有样本点之间的距离
     for i in range(m):
         point_distance[i, 0] = euclidean_dist(point, points[i])
 
-    # 计算高斯核
+    # 计算求解样本与其他所有样本高斯核数的值(贡献度不同)
     point_weights = gaussian_kernel(point_distance, kernel_bandwidth)   # m * 1的矩阵
 
     # 计算分母
@@ -127,7 +128,7 @@ def train_mean_shift(points: np.array, kernel_bandwidth: int=2):
 
     # 计算均值漂移向量
     while max_min_dist > MIN_DISTANCE:
-        max_min_dist = 0
+        max_min_dist = 0    # 误差初始化为0
         iteration += 1
         print(" iteration: %s" % str(iteration))
         for i in range(0, m):
@@ -136,7 +137,8 @@ def train_mean_shift(points: np.array, kernel_bandwidth: int=2):
                 continue
             p_new = mean_shift_points[i]
             p_new_start = p_new
-            p_new = shift_point(p_new, points, kernel_bandwidth)    # 对样本点进行漂移
+            # 对样本点进行漂移, 由该样本与其他所有样本漂移向量求和再求平均
+            p_new = shift_point(p_new, points, kernel_bandwidth)
             dist = euclidean_dist(p_new, p_new_start)   # 计算该点与漂移后的点之间的距离
             if dist > max_min_dist:
                 max_min_dist = dist
@@ -145,8 +147,8 @@ def train_mean_shift(points: np.array, kernel_bandwidth: int=2):
 
             mean_shift_points[i] = p_new
 
-        # 计算最终的group
-        group = group_points(mean_shift_points)  # 计算所属的类别
+    # 计算最终的group
+    group = group_points(mean_shift_points)  # 计算所属的类别
     return np.mat(points), mean_shift_points, group
 
 
