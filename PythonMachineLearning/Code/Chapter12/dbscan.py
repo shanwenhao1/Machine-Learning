@@ -28,6 +28,7 @@ def distance(data: np.mat):
             for k in range(n):
                 tmp += (data[i, k] - data[j, k]) * (data[i, k] - data[j, k])
             dis[i, j] = np.sqrt(tmp)
+            # 样本j到i的距离记录, 减少计算量
             dis[j, i] = dis[i, j]
     return dis
 
