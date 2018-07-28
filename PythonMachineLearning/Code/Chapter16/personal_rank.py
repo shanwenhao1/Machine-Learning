@@ -57,24 +57,27 @@ def personal_rank(data_dict: dict, alpha: float, user: str, max_cycles):
     """
     利用PersonalRank打分
     :param data_dict: 用户-商品的二部图表示
-    :param alpha: 概率(0-1之间)
+    :param alpha: 跳出当前链接的概率(0-1之间)
     :param user: 指定用户
     :param max_cycles: 最大的迭代次数
     :return: rank(dict): 打分的列表
     """
     # 1、初始化打分
     rank = {x: 0 for x in data_dict.keys()}
+    # 初始化初始转移概率, 其中user(用户)的概率为1
     rank[user] = 1  # 从user开始游走(附上1的概率, 通常整个图的概率加起来为1)
 
     # 2、迭代
     step = 0
     while step < max_cycles:
+        # 初始化二部图, 都为0
         tmp = {x: 0 for x in data_dict.keys()}
 
         for k, v in data_dict.items():
             for j in v.keys():
                 if j not in tmp:
                     tmp[j] = 0
+                # PR公式更新概率转移二部图
                 tmp[j] += alpha * rank[k] / (1.0 * len(v))
                 if j == user:
                     tmp[j] += (1 - alpha)
@@ -98,7 +101,7 @@ def personal_rank_run():
     # 1、导入用户商品矩阵
     print("------------ 1.load data -------------")
     data_mat = FTool.LoadData(file_name="data.txt").load_data_with_none()
-    # 2、将用户商品矩阵转换成邻接表的存储
+    # 2、将用户商品矩阵转换成邻接表的存储(二部图)
     print("------------ 2.generate dict --------------")
     data_dict = generate_dict(data_mat)
     # 3、利用PersonalRank计算
