@@ -54,6 +54,7 @@
 - [第十六章](ChapterNote/Part4-Recommendation/Chapter16-Graph-based-Recommend.md) Graph-based Recommendation Algorithm
 
 ### Part Ⅴ 深度学习(Deep Learning)
+
 深度学习算法自动学习到特征的表示方法, 不需要人工参与特征的提取
 - [第十七章](ChapterNote/Part5-DeepLearning/Chapter17-AutoEncoder.md) Deep Learning
 - [第十八章](ChapterNote/Part5-DeepLearning/Chapter18-Convolutional-Neural-Network.md) Convolutional Neural Networks, CNN

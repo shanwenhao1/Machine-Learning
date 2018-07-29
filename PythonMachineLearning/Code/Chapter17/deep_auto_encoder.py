@@ -27,7 +27,7 @@ class StackedDeNosingAutoEncoder:
         堆叠降噪自编码器类的训练
         :return:
         """
-        # 1、训练每一个降噪自编码器
+        # 1、训练每一个降噪自编码器, 逐层训练
         next_input_data = self.input_data_train_x
         for i, hidden_size in enumerate(self.hidden_list):
             print("-------------------- train the %s sda --------------------" % (i + 1))
@@ -36,7 +36,7 @@ class StackedDeNosingAutoEncoder:
             w_eval, b_eval, encode_eval = dae.get_value()
             self.encode_w.append(w_eval)
             self.encode_b.append(b_eval)
-            next_input_data = encode_eval
+            next_input_data = encode_eval   # 除第一个降噪自编码器外, 其余的降噪自编码器使用上一层的输出作为输入
 
         # 2、堆叠多个降噪自编码器
         n_input = self.input_data_train_x.shape[1]

@@ -31,7 +31,7 @@ class DeNoisingAutoEncoder:
         n_visible = self.input_data.shape[1]    # 输入层节点的个数
         # 输入一张图片用28 * 28 = 784的向量表示, tf.placeholder变量初始化时使用占位符
         x = tf.placeholder("float", [None, n_visible], name="X")
-        # 用于将部分输入数据置为0
+        # 用于将部分输入数据置为0, 添加噪音, 防止过拟合
         mask = tf.placeholder("float", [None, n_visible], name="mask")
         # 创建权重和偏置
         w_init_max = 4 * np.sqrt(6. / (n_visible + self.layer_size))    # 权重初始化选择区间
