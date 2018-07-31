@@ -27,8 +27,12 @@
 ### [机器学习实战](https://github.com/pbharrin/machinelearninginaction)
 
 ### Deep Learning Tutorial - Hung-yi Lee(李宏毅)
+
 - [Deep Learning Tutorial PDF](Deep Learning Tutorial.pdf)
 - [Deep Learning 笔记](DeepLearningTutorial/Deep%20Learning.md)
+
+## 工具
+- [TensorFlow中文文档](http://www.tensorfly.cn/tfdoc/get_started/introduction.html)
 
 
 ## 杂谈
@@ -39,4 +43,4 @@
 - [几种常用的优化算法](https://www.cnblogs.com/shixiangwan/p/7532830.html)
 
 
-## [个人总结](Personal%20Summary.md)
+## [Personal Summary](Personal%20Summary.md)
