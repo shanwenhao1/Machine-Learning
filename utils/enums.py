@@ -4,7 +4,7 @@
 # @Author  : Wenhao Shan
 
 
-class enum(object):
+class Enum(object):
     """
     枚举基类
     """

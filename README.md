@@ -20,19 +20,23 @@
     
 ## 阅读笔记
 
-### [机器学习 - 赵志勇著](https://github.com/zhaozhiyong19890102/Python-Machine-Learning-Algorithm)
+### [<small>机器学习 - 赵志勇著</small>](https://github.com/zhaozhiyong19890102/Python-Machine-Learning-Algorithm)
+
 - [个人阅读笔记](PythonMachineLearning/ReadNote.md)
 - [个人总结](PythonMachineLearning/ChapterNote/Personal%20Summary.md)
 
-### [机器学习实战](https://github.com/pbharrin/machinelearninginaction)
+### [<small>机器学习实战</small>](https://github.com/pbharrin/machinelearninginaction)
 
-### Deep Learning Tutorial - Hung-yi Lee(李宏毅)
+- [个人阅读笔记](MachineLearingInAction/ReadNote.md)
+
+### <small>Deep Learning Tutorial - Hung-yi Lee(李宏毅)</small>
 
 - [Deep Learning Tutorial PDF](Deep Learning Tutorial.pdf)
 - [Deep Learning 笔记](DeepLearningTutorial/Deep%20Learning.md)
 
-## 工具
-- [TensorFlow中文文档](http://www.tensorfly.cn/tfdoc/get_started/introduction.html)
+### [<small>TensorFlow中文文档</small>](http://www.tensorfly.cn/tfdoc/get_started/introduction.html)
+
+- [TensorFlow文档观后笔记](TensorFlow/ReadNote.md)
 
 
 ## 杂谈
