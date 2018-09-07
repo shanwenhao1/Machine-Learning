@@ -4,9 +4,11 @@
 # @Author  : Wenhao Shan
 # @Dsc     : Some base function and tool of ML in action
 
+import copy
 import matplotlib.pyplot as plt
 from numpy import zeros, ndarray, tile
 from mpl_toolkits.mplot3d import Axes3D
+from utils.errors import ActionError
 
 
 # ------------------------------------------ Normalized Data ------------------------------------------ #
@@ -39,14 +41,15 @@ class BasePainting:
     """
     Base class of Painting
     """
-    def __init__(self, fig_support: int=111, name: str=""):
+
+    def __init__(self, fig_support: int = 111, name: str = ""):
         # linux系统下需要加上matplotlib.use('Agg')
         # AGG is the abbreviation of Anti-grain geometry engine.
         # matplotlib.use('Agg')
-        self.fig = plt.figure(1)
+        self.fig = plt.figure()
         self.ax1 = self.fig.add_subplot(fig_support)
         self.ax1.set_title(name)
-        self.all_color = ["black", "brown", "gold", "blue", "red", "maroon", "yellow", "gray"]
+        self.all_color = ["black", "red", "blue", "gold", "brown", "maroon", "yellow", "gray"]
         self.all_marker = ["x", "o", "+", "*", "h", "s", "^", "D"]
 
     def __enter__(self):
@@ -65,27 +68,38 @@ class Painting3D(BasePainting):
     """
     paint slot of ndarray
     """
-    def __init__(self, fig_support: int=111, name: str=""):
-        super(Painting3D, self).__init__(fig_support, name)
-        self.ax1 = Axes3D(self.fig)
 
-    def paint(self, data_mat: ndarray, data_labels: list):
+    def __init__(self, fig_support: int = 111, name: str = ""):
+        super(Painting3D, self).__init__(fig_support, name)
+        # self.ax1 = Axes3D(self.fig)
+        self.ax1 = self.fig.add_subplot(fig_support, projection='3d')
+        self.ax1.set_title(name)
+
+    def paint(self, data_mat: ndarray, data_labels: list, x_name: str="x", y_name: str="y", z_name: str="z"):
         all_type_dict = dict()
         one_type_dict = {"x_data": list(), "y_data": list(), "z_data": list()}
         for _, label in enumerate(data_labels):
             if label not in all_type_dict.keys():
-                all_type_dict[label] = one_type_dict
+                # 这边不使用copy的话, 直接使用one_type_dict的话, 由于python是引用性变量,
+                # 会使得修改all_type_dict出现bug, 具体可以试下(对key: 1修改, 会对其余key一并修改)
+                all_type_dict[label] = copy.deepcopy(one_type_dict)
         for i in range(data_mat.shape[0]):
-            type_dict = all_type_dict[data_labels[i]]
+            label = data_labels[i]
+            type_dict = all_type_dict.get(label)
             type_dict["x_data"].append(data_mat[i][0])
             type_dict["y_data"].append(data_mat[i][1])
             type_dict["z_data"].append(data_mat[i][2])
-            all_type_dict[data_labels[i]] = type_dict
+            all_type_dict[label] = type_dict
         i = 0
         for key, value in all_type_dict.items():
+            if i > len(self.all_color):
+                raise ActionError("颜色配置不足, 请添加")
             self.ax1.scatter(value["x_data"], value["y_data"], value["z_data"],
                              c=self.all_color[i], marker=self.all_marker[i])
             i += 1
+        self.ax1.set_zlabel(z_name)
+        self.ax1.set_ylabel(y_name)
+        self.ax1.set_xlabel(x_name)
 
 
 # ------------------------------------------ Load Data ------------------------------------------ #
@@ -95,6 +109,7 @@ class BaseLoadData:
     """
     Base Class of Load Data
     """
+
     def __init__(self, file_path: str):
         self.file_path = file_path
 
@@ -110,10 +125,11 @@ class LD(BaseLoadData):
     """
     Load Data To numpy.ndarray
     """
+
     def __init__(self, file_path: str):
         super(LD, self).__init__(file_path)
 
-    def load_to_ndarray(self, feature_len: int, need_label: bool=True):
+    def load_to_ndarray(self, feature_len: int, need_label: bool = True):
         """
         导入数据, 格式为numpy.ndarray格式
         :param feature_len: 特征个数
@@ -136,4 +152,3 @@ class LD(BaseLoadData):
                 label_list.append(int(line_split_list[-1]))
             index += 1
         return return_mat, label_list if need_label else return_mat
-

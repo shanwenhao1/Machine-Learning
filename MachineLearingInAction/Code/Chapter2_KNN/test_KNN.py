@@ -19,7 +19,7 @@ def dating_class_test(file_name: str, k_number: int):
     with FTool.LD(file_name) as ld:
         dating_mat, dating_labels = ld.load_to_ndarray(3, True)
     with FTool.Painting3D(name="Personal hobby with love") as plt:
-        plt.paint(dating_mat, dating_labels)
+        plt.paint(dating_mat, dating_labels, x_name="Fly miles", y_name="Play game", z_name="Ice Cream")
     norm_mat, ranges, min_val = FTool.HM.average(dating_mat)
     m = norm_mat.shape[0]
     # 校验数据的数量, 一般为10%, 90%样本数据用来训练分类器
