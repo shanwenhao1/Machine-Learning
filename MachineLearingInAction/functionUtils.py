@@ -71,8 +71,7 @@ class Painting3D(BasePainting):
 
     def __init__(self, fig_support: int = 111, name: str = ""):
         super(Painting3D, self).__init__(fig_support, name)
-        # self.ax1 = Axes3D(self.fig)
-        self.ax1 = self.fig.add_subplot(fig_support, projection='3d')
+        self.ax1 = Axes3D(self.fig)
         self.ax1.set_title(name)
 
     def paint(self, data_mat: ndarray, data_labels: list, x_name: str="x", y_name: str="y", z_name: str="z"):
