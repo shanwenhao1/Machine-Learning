@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2018/9/5
 # @Author  : Wenhao Shan
-# Dsc:
+# Dsc: The Knn learning
 
 import os
 # 运算符模块
 from numpy import *
 from utils.errors import ActionError
 from MachineLearingInAction import functionUtils as FTool
+from MachineLearingInAction.enums.knnChoice import Appointment
 
 
 class KnnLearning(object):
@@ -46,7 +47,8 @@ class KnnLearning(object):
         diff_mat = tile(inx, (data_set_size, 1)) - data_set
         # 对feature差值做平方(为求距离做准备), 如[[1, -0.1]]求平方后变为[[1, 0.01]]
         sq_diff_mat = diff_mat ** 2
-        # 测试点与所有训练样本的距离, .sum将矩阵的每一行向量相加, 如sum([[0,1,2],[2,1,3],axis=1) 结果为: array([3, 6])
+        # 测试点与所有训练样本的距离, .sum将矩阵的每一行向量相加, 如sum([[0,1,2],[2,1,3],axis=1) 结果为:
+        # array([3, 6])
         sq_distances = sq_diff_mat.sum(axis=1)
         # 对平方和进行开根号(此步骤可以考虑省略, 因为平方和可以直接作比较)
         distances = sq_distances ** 0.5
@@ -59,7 +61,10 @@ class KnnLearning(object):
             vote_label_i = labels[sorted_dist_index[i]]
             class_count[vote_label_i] = class_count.get(vote_label_i, 0) + 1
         # 根据计数来判定样本点所属类别
-        sorted_class_count = sorted(class_count.items(), key=lambda item: item[1], reverse=True)
+        sorted_class_count = sorted(
+            class_count.items(),
+            key=lambda item: item[1],
+            reverse=True)
         return sorted_class_count[0][0]
 
 
@@ -69,15 +74,18 @@ def classify_person(file_name: str, k_number: int):
     :return:
     """
     result_list = ["not at all", "in small doses", "in large doses"]
-    percent_tats = float(input("percentage of time spent playing video games?"))
+    percent_tats = float(
+        input("percentage of time spent playing video games?"))
     fly_miles = float(input("frequent flier miles earned per year?"))
     ice_cream = float(input("liters of ice cream consumed per year?"))
     with FTool.LD(file_name) as ld:
         dating_data_mat, dating_labels = ld.load_to_ndarray(3, True)
     norm_mat, ranges, min_val = FTool.HM.average(dating_data_mat)
     in_arr = array([fly_miles, percent_tats, ice_cream])
-    classifier_result = KnnLearning.classify0((in_arr - min_val) / ranges, norm_mat, dating_labels, k_number)
-    print("You will probably like this person: ", result_list[classifier_result - 1])
+    classifier_result = KnnLearning.classify0(
+        (in_arr - min_val) / ranges, norm_mat, dating_labels, k_number)
+    print("You will probably like this person: ",
+          result_list[classifier_result - 1])
 
 
 def knn_run():
@@ -96,5 +104,5 @@ def knn_run():
     classify_person(file_path, 3)
 
 
-if __name__ == '__main__':
-    knn_run()
+# if __name__ == '__main__':
+#     knn_run()

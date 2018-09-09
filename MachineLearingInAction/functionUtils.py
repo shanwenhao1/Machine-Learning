@@ -75,13 +75,12 @@ class Painting3D(BasePainting):
         self.ax1.set_title(name)
 
     def paint(self, data_mat: ndarray, data_labels: list, x_name: str="x", y_name: str="y", z_name: str="z"):
-        all_type_dict = dict()
+        all_type_dict = dict()  # 画图dict, 每个key代表一种分类
         one_type_dict = {"x_data": list(), "y_data": list(), "z_data": list()}
-        for _, label in enumerate(data_labels):
-            if label not in all_type_dict.keys():
-                # 这边不使用copy的话, 直接使用one_type_dict的话, 由于python是引用性变量,
-                # 会使得修改all_type_dict出现bug, 具体可以试下(对key: 1修改, 会对其余key一并修改)
-                all_type_dict[label] = copy.deepcopy(one_type_dict)
+        # 这边不使用deepcopy的话, 直接使用one_type_dict的话, 由于python是引用性变量,
+        # 会使得修改all_type_dict出现bug, 具体可以试下(对key: 1修改, 会对其余key一并修改)
+        all_type_dict = {label: copy.deepcopy(one_type_dict) for _, label in enumerate(data_labels)
+                         if label not in all_type_dict.keys()}
         for i in range(data_mat.shape[0]):
             label = data_labels[i]
             type_dict = all_type_dict.get(label)

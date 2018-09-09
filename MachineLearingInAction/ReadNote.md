@@ -9,6 +9,7 @@
 ### Part Ⅰ 分类
 
 - [第二章](ChapterNote/Chapter2-KNN.md)
+- [第三章](ChapterNote/Chapter3-random%20Forest.md)
 
 ### Part Ⅱ 利用回归预测数值型数据
 
