@@ -4,12 +4,10 @@
 # @Author  : Wenhao Shan
 # Dsc      : Random Forest learning
 
-import operator
 from math import log
-from numpy import ndarray
 
 
-def shannon_entropy(data_set: ndarray):
+def shannon_entropy(data_set: list):
     """
     shannon entropy function, return shannon entropy of  data set
     :param data_set:
@@ -131,3 +129,13 @@ def create_tree(data_set: list, labels: list):
         my_tree[best_fea_label][value] = create_tree(
             split_data_set(data_set, best_fea_index, value), sub_labels)
     return my_tree
+
+
+def classify(input_tree, fea_labels: list, test_vec):
+    """
+
+    :param input_tree:
+    :param fea_labels:
+    :param test_vec:
+    :return:
+    """
