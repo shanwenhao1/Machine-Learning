@@ -5,6 +5,21 @@
 # Dsc      : Random Forest learning
 
 from math import log
+import matplotlib.pyplot as plt
+
+
+def create_data_set():
+    """
+    用来生成模拟数据
+    :return:
+    """
+    data_set = [[1, 1, 'yes'],
+                [1, 1, 'yes'],
+                [1, 0, 'no'],
+                [0, 1, 'no'],
+                [0, 1, 'no']]
+    label = ['no surfacing', 'flippers']
+    return data_set, label
 
 
 def shannon_entropy(data_set: list):
@@ -131,11 +146,31 @@ def create_tree(data_set: list, labels: list):
     return my_tree
 
 
-def classify(input_tree, fea_labels: list, test_vec):
+def classify(input_tree: dict, fea_labels: list, test_vec: list):
     """
-
+    测试决策树划分
     :param input_tree:
     :param fea_labels:
     :param test_vec:
     :return:
     """
+    first_str = input_tree.keys()[0]
+    second_dict = input_tree[first_str]
+    feat_index = fea_labels.index(first_str)
+    key = test_vec[feat_index]
+    value_of_feat = second_dict[key]
+    if isinstance(value_of_feat, dict):
+        class_label = classify(value_of_feat, fea_labels, test_vec)
+    else:
+        class_label = value_of_feat
+    return class_label
+
+
+if __name__ == '__main__':
+    my_dat, labels = create_data_set()
+    # print("Test func shannon_entropy: ", shannon_entropy(my_dat))
+    # print("Test func split_data_set:", split_data_set(my_dat, 0, 1))
+    # print("Test func choose_best_fea_to_split:", choose_best_fea_to_split(my_dat))
+    # print("Test func create_tree", create_tree(my_dat, labels))
+    my_tree = create_tree(my_dat, labels)
+    print("Test func classify: ", classify(my_tree, labels, [1, 1]))
