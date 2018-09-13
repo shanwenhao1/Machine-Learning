@@ -118,12 +118,7 @@ class PaintingTree:
                 max_depth = this_depth
         return max_depth
 
-    def plot_node(
-            self,
-            node_txt: str,
-            center_pt: tuple,
-            parent_pt: tuple,
-            node_type: dict):
+    def plot_node(self, node_txt: str, center_pt: tuple, parent_pt: tuple, node_type: dict):
         """
         绘制带箭头的注解
         :param node_txt:

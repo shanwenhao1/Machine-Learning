@@ -5,12 +5,13 @@
 # Dsc      : Random Forest learning
 
 from math import log
-import matplotlib.pyplot as plt
+from copy import deepcopy
+from MachineLearingInAction import functionUtils as FTool
 
 
 def create_data_set():
     """
-    用来生成模拟数据
+    用来生成模拟数据(鱼非鱼数据)
     :return:
     """
     data_set = [[1, 1, 'yes'],
@@ -68,7 +69,7 @@ def split_data_set(data_set: list, axis: int, value):
 
 def choose_best_fea_to_split(data_set: list):
     """
-    choose the best split way to divide data set
+    choose the best split way to divide current data set
     :param data_set:
     :return:
     """
@@ -83,7 +84,7 @@ def choose_best_fea_to_split(data_set: list):
         # 利用set过滤相同的值, 剩下的即为该特征值的所有可能性
         unique_val = set(fea_list)
         new_entropy = 0.0
-        for value in unique_val:                       # 利用循环计算出每个可能的香农熵值
+        for value in unique_val:                    # 利用循环计算出每个可能的香农熵值
             sub_data_set = split_data_set(data_set, i, value)
             prob = len(sub_data_set) / float(len(data_set))
             new_entropy += prob * shannon_entropy(sub_data_set)
@@ -116,8 +117,8 @@ def majority_cnt(class_list: list):
 def create_tree(data_set: list, labels: list):
     """
     构建树
-    :param data_set:
-    :param labels:
+    :param data_set: 训练数据集
+    :param labels: 特征标签列表
     :return:
     """
     class_list = [_data[-1] for _data in data_set]
@@ -137,7 +138,7 @@ def create_tree(data_set: list, labels: list):
     # 构造树后删除当前节点(父节点)
     del(labels[best_fea_index])
     best_fea_values = [_data[best_fea_index] for _data in data_set]
-    unique_val = set(best_fea_values)   # 作为划分节点的值的可能性集合, n个值则表示划分为n个叶子节点
+    unique_val = set(best_fea_values)               # 作为划分节点的值的可能性集合, n个值则表示划分为n个叶子节点
     # 每个叶子节点递归调用继续向下构造树
     for value in unique_val:
         sub_labels = labels[:]
@@ -149,13 +150,16 @@ def create_tree(data_set: list, labels: list):
 def classify(input_tree: dict, fea_labels: list, test_vec: list):
     """
     测试决策树划分
-    :param input_tree:
-    :param fea_labels:
-    :param test_vec:
-    :return:
+    :param input_tree: 输入树(字典存储方式)
+    :param fea_labels: 特征标签列表
+    :param test_vec: 待测样本(输入的是该样本的特征列表)
+    :return: 返回划分的结果, 此例中yes为鱼, no不为鱼
     """
-    first_str = input_tree.keys()[0]
+    first_str = list(input_tree.keys())[0]          # 树的当前划分节点
     second_dict = input_tree[first_str]
+    # 利用index找到节点所属标签的索引值, 实质上是从树的根节点所属的特征开始,
+    # 自上而下根据test_vec(test_vec的特征只跟fea_labels一一对应, 跟树不对应, 因此需要根据树去找对应的特征索引值)
+    # 中的特征一路寻找待测样本所属类别
     feat_index = fea_labels.index(first_str)
     key = test_vec[feat_index]
     value_of_feat = second_dict[key]
@@ -172,5 +176,6 @@ if __name__ == '__main__':
     # print("Test func split_data_set:", split_data_set(my_dat, 0, 1))
     # print("Test func choose_best_fea_to_split:", choose_best_fea_to_split(my_dat))
     # print("Test func create_tree", create_tree(my_dat, labels))
+    classify_labels = deepcopy(labels)         # 由于python是引用型变量, 先保留防止在create_tree中改变labels值
     my_tree = create_tree(my_dat, labels)
-    print("Test func classify: ", classify(my_tree, labels, [1, 1]))
+    print("Test func classify: ", classify(my_tree, classify_labels, [1, 1]))
