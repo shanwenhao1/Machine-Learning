@@ -48,6 +48,7 @@ def error_rate(h: np.mat, label: np.mat):
     for i in range(m):
         z = h[i, 0]
         if h[i, 0] > 0 and (1 - h[i, 0]) > 0:
+            # loss function
             sum_err -= (label[i, 0] * np.log(h[i, 0]) + (1 - label[i, 0]) * np.log(1 - h[i, 0]))
         else:
             sum_err -= 0

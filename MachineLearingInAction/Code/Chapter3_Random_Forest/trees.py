@@ -5,22 +5,6 @@
 # Dsc      : Random Forest learning
 
 from math import log
-from copy import deepcopy
-from MachineLearingInAction import functionUtils as FTool
-
-
-def create_data_set():
-    """
-    用来生成模拟数据(鱼非鱼数据)
-    :return:
-    """
-    data_set = [[1, 1, 'yes'],
-                [1, 1, 'yes'],
-                [1, 0, 'no'],
-                [0, 1, 'no'],
-                [0, 1, 'no']]
-    label = ['no surfacing', 'flippers']
-    return data_set, label
 
 
 def shannon_entropy(data_set: list):
@@ -49,13 +33,13 @@ def split_data_set(data_set: list, axis: int, value):
     divide data set according to sub_list[axis] == value, the sub_list is the element of data_set
     for example:
     >>> my_dat = [[1, 1, 'yes'], [1, 1, 'yes'], [0, 0, 'no']]
-    >>> split_data_set(my_dat, 0, 1)
+    >>> split_data_set(my_dat, 0, 1) # 取出第一个特征且值为1的数据(该特征数据祛除)
         [[1, 'yes'], [1, 'yes']]
-    >>> split_data_set(my_dat, 0, 0)
+    >>> split_data_set(my_dat, 0, 0) # 取出第一个特征且值为0的数据
         [[0, 'no']]
-    :param data_set:
-    :param axis:
-    :param value: any type
+    :param data_set: 待划分的数据集
+    :param axis: 划分数据集的特征的游标位置
+    :param value: any type 需要返回的特征
     :return:
     """
     ret_data_set = list()
@@ -78,18 +62,24 @@ def choose_best_fea_to_split(data_set: list):
     base_entropy = shannon_entropy(data_set)
     best_info_gain = 0.0
     best_fea = -1
+    # step: 循环计算每个特征作为划分节点时的香农信息熵, 选择信息增益最大的节点作为当前决策点
     for i in range(fea_len):
-        # 利用列表推导式取出data_set中所有样本第i个特征的值
+        # 利用列表推导式抽取data_set中样本第i个特征的值组成一个list
         fea_list = [_data[i] for _data in data_set]
-        # 利用set过滤相同的值, 剩下的即为该特征值的所有可能性
+        # 利用set过滤相同的值, 剩下的即为该特征值的所有可能性(即样本第i列的所有可能性label列表)
         unique_val = set(fea_list)
+
         new_entropy = 0.0
-        for value in unique_val:                    # 利用循环计算出每个可能的香农熵值
+        # 利用循环统计第i个特征的香农熵值
+        for value in unique_val:
             sub_data_set = split_data_set(data_set, i, value)
+            # 样本第i个特征的概率P(value)
             prob = len(sub_data_set) / float(len(data_set))
+            # 计算信息熵
             new_entropy += prob * shannon_entropy(sub_data_set)
+        # 计算该划分方法的信息信息增益(information gain)
         info_gain = base_entropy - new_entropy
-        # 计算最好的信息增益(从而筛选出最佳划分点)
+        # 计录最好的信息增益(从而筛选出最佳决策点)
         if info_gain > best_info_gain:
             best_info_gain = info_gain
             best_fea = i
@@ -107,6 +97,7 @@ def majority_cnt(class_list: list):
         if vote not in class_count.keys():
             class_count[vote] = 0
         class_count += 1
+    # 排序
     class_count_sorted = sorted(
         class_count.items(),
         key=lambda _count: _count[1],
@@ -122,7 +113,7 @@ def create_tree(data_set: list, labels: list):
     :return:
     """
     class_list = [_data[-1] for _data in data_set]
-    # 类别完全相同时停止划分树
+    # 类别完全相同时停止划分树(样本中数据完全一致)
     if class_list.count(class_list[0]) == len(class_list):
         return class_list[0]
     # 当所有特征遍历完后, 返回出现次数最多的类别
@@ -134,17 +125,20 @@ def create_tree(data_set: list, labels: list):
     best_fea_label = labels[best_fea_index]
 
     # 递归构造树
-    my_tree = {best_fea_label: dict()}
-    # 构造树后删除当前节点(父节点)
+    new_tree = {best_fea_label: dict()}
+    # 删除该特征label
     del(labels[best_fea_index])
+
+    # 获取该特征所有可能性以供后续向下构造树
     best_fea_values = [_data[best_fea_index] for _data in data_set]
     unique_val = set(best_fea_values)               # 作为划分节点的值的可能性集合, n个值则表示划分为n个叶子节点
-    # 每个叶子节点递归调用继续向下构造树
+
+    # step: 当前最佳划分特征的每种样本递归向下进行树的构造(即叶子节点递归调用继续向下构造树)
     for value in unique_val:
         sub_labels = labels[:]
-        my_tree[best_fea_label][value] = create_tree(
+        new_tree[best_fea_label][value] = create_tree(
             split_data_set(data_set, best_fea_index, value), sub_labels)
-    return my_tree
+    return new_tree
 
 
 def classify(input_tree: dict, fea_labels: list, test_vec: list):
@@ -168,14 +162,3 @@ def classify(input_tree: dict, fea_labels: list, test_vec: list):
     else:
         class_label = value_of_feat
     return class_label
-
-
-if __name__ == '__main__':
-    my_dat, labels = create_data_set()
-    # print("Test func shannon_entropy: ", shannon_entropy(my_dat))
-    # print("Test func split_data_set:", split_data_set(my_dat, 0, 1))
-    # print("Test func choose_best_fea_to_split:", choose_best_fea_to_split(my_dat))
-    # print("Test func create_tree", create_tree(my_dat, labels))
-    classify_labels = deepcopy(labels)         # 由于python是引用型变量, 先保留防止在create_tree中改变labels值
-    my_tree = create_tree(my_dat, labels)
-    print("Test func classify: ", classify(my_tree, classify_labels, [1, 1]))

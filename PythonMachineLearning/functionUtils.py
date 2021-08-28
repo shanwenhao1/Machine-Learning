@@ -44,7 +44,7 @@ def least_square(feature: np.mat, label: np.mat):
     return w
 
 
-def get_list_from_mat(mat_data: np.mat, offset: int=0, need_mul: bool=False):
+def get_list_from_mat(mat_data: np.mat, offset: int = 0, need_mul: bool = False):
     """
     将mat数据转换为list数据
     :param mat_data:
@@ -64,7 +64,7 @@ class BasePainting:
     画图基类
     """
 
-    def __init__(self, fig_support: int=111, name: str=""):
+    def __init__(self, fig_support: int = 111, name: str = ""):
         self.fig = plt.figure(1)
         self.ax1 = self.fig.add_subplot(fig_support)
         self.ax1.set_title(name)
@@ -224,7 +224,7 @@ class PaintingWithList(BasePainting):
             # # 单点绘图
             # plt.plot(x_point, y_point, c=self.all_color[label_point], marker=self.all_marker[label_point])
 
-    def painting_with_offset(self, data: list, label: list, mul_simple: bool=False):
+    def painting_with_offset(self, data: list, label: list, mul_simple: bool = False):
         """
         带偏置的画图
         :param data: 原始数据
@@ -237,7 +237,7 @@ class PaintingWithList(BasePainting):
         else:
             self.painting_simple_list(data, label)
 
-    def painting_no_offset(self, data: list, label: list, mul_simple: bool=False):
+    def painting_no_offset(self, data: list, label: list, mul_simple: bool = False):
         """
         不带偏置的画图
         :param data: 原始数据
@@ -256,7 +256,7 @@ class LoadData:
     导入数据的类
     """
 
-    def __init__(self, file_name: str, feature_type: str="float", label_type: str="float"):
+    def __init__(self, file_name: str, feature_type: str = "float", label_type: str = "float"):
         self.file_name = file_name
         self.feature_type = feature_type
         self.label_type = label_type
@@ -266,7 +266,7 @@ class LoadData:
         if self.label_type not in self.all_type_turn.keys():
             raise ActionError("Label Type Error")
 
-    def load_data(self, offset: int=None, need_label_length: bool=False, need_list: bool=False, feature_end: int=1):
+    def load_data(self, offset: int = None, need_label_length: bool = False, need_list: bool = False, feature_end: int = 1):
         """
         导入数据(训练或测试数据)
         :param offset: 偏置项
@@ -302,7 +302,7 @@ class LoadData:
                 return np.mat(feature_data), np.mat(label_list), len(set(label_list))
         return np.mat(feature_data), np.mat(label_array_list)
 
-    def load_data_with_limit(self, number: int, offset: int=None):
+    def load_data_with_limit(self, number: int, offset: int = None):
         """
         导入测试数据
         :param number:

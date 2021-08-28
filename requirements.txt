@@ -2,4 +2,5 @@ numpy
 scipy
 matplotlib
 tensorflow
-urllib5
+urllib3
+feedparser

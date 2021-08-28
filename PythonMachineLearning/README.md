@@ -67,3 +67,5 @@
 - [回归和线性](https://blog.csdn.net/hzw19920329/article/details/77200475)
 - [重点: Sparsity and Some Basics of L1 Regularization](http://freemind.pluskid.org/machine-learning/sparsity-and-some-basics-of-l1-regularization/#ed61992b37932e208ae114be75e42a3e6dc34cb3) 
 - [深度神经网络基本问题的原理详细分析和推导](https://blog.csdn.net/zpcxh95/article/details/69952020?winzoom=1)
+
+- [最小二乘法本质](https://www.zhihu.com/question/37031188/answer/411760828)

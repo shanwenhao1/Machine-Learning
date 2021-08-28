@@ -13,6 +13,7 @@ from MachineLearingInAction.Code.Chapter2_KNN.KNN import KnnLearning
 def img2vector(file_name: str):
     """
     图像转换为向量函数, 将32 * 32图像读取成1 * 1024的numpy数组
+    (相当于拥有1024个特征的样本)
     :param file_name:
     :return:
     """
@@ -35,19 +36,21 @@ def get_dir_image_vector(dir_path: str):
     all_file = listdir(dir_path)
     file_num = len(all_file)
     train_mat = zeros((file_num, 1024))
-    # 解析目下文件名并调用img2vector将图像转换为矩阵
+    # 批量读取数字识别文件
     for i in range(file_num):
         file_name = all_file[i]
         file_head_name = file_name.split('.')[0]
+        # 分类在文件名守个字符, 需要提取出来
         class_label = int(file_head_name.split('_')[0])
         label_list.append(class_label)
+        # 解析目下文件名并调用img2vector将图像转换为矩阵
         train_mat[i, :] = img2vector(dir_path + '/%s' % file_name)
     return label_list, train_mat
 
 
 def hand_writing_class():
     """
-    手写数字识别系统测试, KNN算法效率不高, K决策树属于K-近邻算法的优化版
+    手写数字识别系统测试, 由于特征数量太多， 因此KNN算法效率不高, K决策树属于K-近邻算法的优化版
     :return:
     """
     dir_name_train = "trainingDigits"

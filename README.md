@@ -22,12 +22,12 @@
 
 ### [<small>机器学习 - 赵志勇著</small>](https://github.com/zhaozhiyong19890102/Python-Machine-Learning-Algorithm)
 
-- [个人阅读笔记](PythonMachineLearning/ReadNote.md)
+- [个人阅读笔记](PythonMachineLearning/README.md)
 - [个人总结](PythonMachineLearning/ChapterNote/Personal%20Summary.md)
 
 ### [<small>机器学习实战</small>](https://github.com/pbharrin/machinelearninginaction)
 
-- [个人阅读笔记](MachineLearingInAction/ReadNote.md)
+- [个人阅读笔记](MachineLearingInAction/README.md)
 
 ### <small>Deep Learning Tutorial - Hung-yi Lee(李宏毅)</small>
 
@@ -40,11 +40,14 @@
 
 
 ## 杂谈
+
 - [MarkDown编辑器](https://typora.io/): 编写数学公式
 - [在线latex公式转gif](https://www.codecogs.com/latex/eqneditor.php)
 - [关于Machine Learning 很好的CSDN系列](https://blog.csdn.net/itplus)
 - [斯坦福: 反向传播笔记](Stanford%20Backprop%20Note.pdf)
 - [几种常用的优化算法](https://www.cnblogs.com/shixiangwan/p/7532830.html)
+
+### [<small>挖到宝系列</small>](https://blog.csdn.net/u014365862/article/details/78422372)
 
 
 ## [Personal Summary](Personal%20Summary.md)

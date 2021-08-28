@@ -17,3 +17,10 @@
 ### Part Ⅲ 无监督学习
 
 ### Part Ⅳ 其他工具
+
+## 源码
+* [github源码](https://github.com/pbharrin/machinelearninginaction): python2.6
+
+
+## RSS源相关
+- [RSS阅读器](https://github.com/kurtmckee/feedparser)

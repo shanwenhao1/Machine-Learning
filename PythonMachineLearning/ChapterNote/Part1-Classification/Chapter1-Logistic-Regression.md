@@ -32,6 +32,8 @@
         - 凸优化: 全局只存在一个最优解
         - 非凸优化: 全局存在多个局部最优解
     - 步长α选择很重要
+ 
+![](../MularGif/Part1-Classification/Chapter1Gif/gd.jpg)
     
 ## 其他
 [LR讲解较细的一篇文章](https://blog.csdn.net/programmer_wei/article/details/52072939)
