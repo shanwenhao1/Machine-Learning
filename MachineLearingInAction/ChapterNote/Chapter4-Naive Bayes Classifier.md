@@ -68,7 +68,8 @@
 ## 示例
 * [朴素贝叶斯恶意留言过滤](../Code/Chapter4_Bayes/test_bayes.py)
 * [垃圾邮件过滤](../Code/Chapter4_Bayes/test_bayes_use.py)
-* []()
+* [个人广告获取区域倾向](../Code/Chapter4_Bayes/test_bayes_use.py)
+    - 多语言[停用词表(stop word list)](https://www.ranks.nl/stopwords)
 
 ## 资料
 *[朴素贝叶斯分类](https://www.cnblogs.com/luonet/p/4028990.html)

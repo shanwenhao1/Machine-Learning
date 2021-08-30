@@ -11,6 +11,7 @@
 - [第二章](ChapterNote/Chapter2-KNN.md)K近邻算法
 - [第三章](ChapterNote/Chapter3-random%20Forest.md)决策树算法
 - [第四章](ChapterNote/Chapter4-Naive%20Bayes%20Classifier.md)朴素贝叶斯
+    * 基于概率, 通过贝叶斯准则利用已知值来估计未知概率的方法
 
 ### Part Ⅱ 利用回归预测数值型数据
 

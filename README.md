@@ -31,8 +31,8 @@
 
 ### <small>Deep Learning Tutorial - Hung-yi Lee(李宏毅)</small>
 
-- [Deep Learning Tutorial PDF](Deep Learning Tutorial.pdf)
-- [Deep Learning 笔记](DeepLearningTutorial/Deep%20Learning.md)
+* [Deep Learning Tutorial PDF](Deep Learning Tutorial.pdf)
+* [Deep Learning 笔记](DeepLearningTutorial/Deep%20Learning.md)
 
 ### [<small>TensorFlow中文文档</small>](http://www.tensorfly.cn/tfdoc/get_started/introduction.html)
 
